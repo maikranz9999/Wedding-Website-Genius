@@ -1,155 +1,181 @@
 # Wedding Website Genius - ChristiansHRS 2.0
 
-Intelligenter Copywriting-Bot für Hochzeitsdienstleister mit dynamischem CSV-basierten Anforderungssystem.
+Intelligenter Copywriting-Bot für Hochzeitsdienstleister mit Backend-API und dynamischem CSV-basierten Anforderungssystem.
 
 ## 🚀 Features
 
 - **ChristiansHRS 2.0 Tonalität** - Optimierter Schreibstil für Hochzeitsdienstleister
+- **Backend-API Integration** - Sichere Claude API-Calls über Vercel Serverless Functions
 - **Dynamische CSV-Anforderungen** - Einfach anpassbare Verwendungszwecke
 - **Intelligentes Feedback-System** - Lernfähiger Bot durch User-Bewertungen
 - **10-Punkte-Regelwerk** - Professionelle Copywriting-Standards
 - **Chat-Interface** - Interaktive Anpassungen des generierten Contents
-- **Vercel/GitHub Ready** - Optimiert für moderne Deployment-Workflows
 
 ## 📁 Projektstruktur
 
 ```
 wedding-copy-genius/
-├── index.html              # Hauptanwendung
+├── index.html              # Frontend-Anwendung
+├── api/
+│   ├── generate-copy.js    # Copy-Generierung Endpoint
+│   └── adapt-copy.js       # Copy-Anpassung Endpoint
 ├── data/
 │   └── requirements.csv    # Verwendungszwecke & Anforderungen
+├── .env.example            # Umgebungsvariablen Vorlage
 ├── vercel.json             # Vercel-Konfiguration
 └── README.md               # Diese Datei
 ```
 
-## 🛠 Installation & Deployment
+## 🛠 Setup & Deployment
 
-### Lokale Entwicklung
+### 1. Umgebungsvariablen konfigurieren
 
-1. Repository klonen:
+Erstellen Sie eine `.env` Datei basierend auf `.env.example`:
+
 ```bash
-git clone <ihr-repository>
-cd wedding-copy-genius
+cp .env.example .env
 ```
 
-2. Lokalen Server starten (z.B. mit Python):
-```bash
-python -m http.server 8000
+Fügen Sie Ihren Claude API-Key hinzu:
+```env
+CLAUDE_API_KEY=sk-ant-api03-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 ```
 
-3. Browser öffnen: `http://localhost:8000`
+### 2. Vercel Deployment
 
-### Vercel Deployment
-
-1. Vercel CLI installieren:
 ```bash
+# Vercel CLI installieren
 npm i -g vercel
-```
 
-2. Projekt deployen:
-```bash
+# Projekt deployen
 vercel --prod
+
+# Umgebungsvariablen in Vercel Dashboard setzen:
+# CLAUDE_API_KEY = Ihr Claude API-Key
 ```
 
-### GitHub Pages Deployment
+### 3. GitHub Integration
 
-1. Repository auf GitHub pushen
-2. GitHub Pages in den Repository-Einstellungen aktivieren
-3. Source auf "GitHub Actions" setzen
-4. Automatisches Deployment erfolgt bei jedem Push
+```bash
+git init
+git add .
+git commit -m "Initial commit - Wedding Copy Genius Backend"
+git push origin main
+```
+
+Vercel automatisch mit GitHub verbinden für kontinuierliche Deployments.
+
+## 🔧 API-Endpoints
+
+### POST `/api/generate-copy`
+
+Generiert neuen Copy basierend auf Parametern.
+
+**Request Body:**
+```json
+{
+  "prompt": "Schreibe eine Homepage-Headline",
+  "service": "Hochzeitsplanung",
+  "target": "Luxussegment Brautpaare",
+  "usp": "Nur 10 Hochzeiten pro Jahr",
+  "tone": "christiansHRS",
+  "purpose": "Haupt-Headline|5-10|Beispieltext"
+}
+```
+
+**Response:**
+```json
+{
+  "copy": "Generierter Copy-Text mit Stilmitteln...",
+  "success": true
+}
+```
+
+### POST `/api/adapt-copy`
+
+Passt bestehenden Copy basierend auf Feedback an.
+
+**Request Body:**
+```json
+{
+  "originalCopy": "Ursprünglicher Copy...",
+  "adaptationRequest": "Mach es kürzer und emotionaler",
+  "params": { /* Original-Parameter */ }
+}
+```
+
+**Response:**
+```json
+{
+  "adaptedCopy": "Angepasster Copy-Text...",
+  "success": true
+}
+```
 
 ## 📝 CSV-Anforderungen anpassen
 
-Die Datei `data/requirements.csv` enthält alle Verwendungszwecke und kann einfach bearbeitet werden:
+Die Datei `data/requirements.csv` kann jederzeit bearbeitet werden:
 
 ```csv
 Sektion,Verwendungszweck,Empfohlene Anzahl der Wörter,Beispiel
-1. Startseite / Hero-Bereich,Haupt-Headline,5–10,Beispieltext hier
+1. Startseite,Haupt-Headline,5–10,Beispieltext hier
 ```
 
-**Spalten:**
-- `Sektion`: Kategorie (z.B. "1. Startseite / Hero-Bereich")
-- `Verwendungszweck`: Beschreibung der Textart
-- `Empfohlene Anzahl der Wörter`: Wortanzahl-Vorgabe
-- `Beispiel`: Optionaler Beispieltext
+**Automatisches Update:**
+1. CSV in GitHub bearbeiten
+2. Commit & Push
+3. Vercel deployed automatisch
+4. Neue Anforderungen sofort verfügbar
 
-### Neue Anforderungen hinzufügen
+## 🔒 Sicherheit
 
-1. `data/requirements.csv` bearbeiten
-2. Neue Zeile hinzufügen
-3. Datei committen und pushen
-4. Automatisches Update der Dropdown-Liste
+- **API-Keys** werden sicher in Vercel-Umgebungsvariablen gespeichert
+- **CORS-Headers** für sichere Frontend-Backend-Kommunikation
+- **Validierung** aller eingehenden Requests
+- **Fehlerbehandlung** mit aussagekräftigen Error-Messages
+
+## 📊 Monitoring & Logging
+
+- Vercel Analytics für Performance-Tracking
+- Console-Logs für API-Debugging
+- Fehler-Tracking in Vercel Dashboard
 
 ## 🎨 Anpassungen
 
 ### Tonalität ändern
 
-In `index.html` die Variable `tone` anpassen:
-```html
-<option value="christiansHRS">ChristiansHRS 2.0</option>
-```
-
-### Demo-Texte erweitern
-
-Im JavaScript-Bereich die `demoCopies` Array erweitern:
+In den API-Endpunkten den System-Prompt anpassen:
 ```javascript
-const demoCopies = [
-    "Neuer Demo-Text hier...",
-    // Weitere Demo-Texte
-];
+// Neue Tonalität definieren
+const systemPrompt = `Du bist ein professioneller Copywriter...`;
 ```
 
-### Styling anpassen
+### Neue API-Endpunkte hinzufügen
 
-CSS-Variablen in `index.html` anpassen:
-```css
-:root {
-    --primary-color: #000000;
-    --secondary-color: #333333;
-    /* Weitere Variablen */
-}
-```
+1. Neue Datei in `/api/` erstellen
+2. Vercel Serverless Function implementieren
+3. Frontend-Integration hinzufügen
 
-## 📊 Feedback-System
+## 🚀 Performance
 
-Das integrierte Feedback-System sammelt Bewertungen zu generierten Texten:
+- **Serverless Functions** für optimale Skalierung
+- **CSV-Caching** für schnelle Dropdown-Population
+- **Error-Boundaries** für robuste User-Experience
+- **Loading-States** für bessere UX
 
-- **5-Sterne-Bewertung** mit Emojis
-- **Kommentarfunktion** für detailliertes Feedback
-- **Statistik-Dashboard** in der Sidebar
-- **Session-basierte Speicherung** (keine persistente Datenhaltung)
+## 📋 Anforderungen
 
-## 🔧 Technische Details
-
-### Browser-Kompatibilität
-
-- Moderne Browser (Chrome, Firefox, Safari, Edge)
-- ES6+ Features verwendet
-- Fetch API für CSV-Loading
-- CSS Grid/Flexbox für Layout
-
-### Performance
-
-- Statische HTML-Datei
-- CSV wird einmalig beim Load geladen
-- Minimale externe Abhängigkeiten
-- Optimiert für schnelle Ladezeiten
+- **Claude API-Key** (Anthropic)
+- **Vercel Account** für Hosting
+- **GitHub Repository** für Code-Management
 
 ## 🤝 Contributing
 
 1. Fork erstellen
-2. Feature Branch erstellen: `git checkout -b feature/neues-feature`
-3. Änderungen committen: `git commit -m 'Neues Feature hinzugefügt'`
+2. Feature Branch: `git checkout -b feature/neues-feature`
+3. Änderungen committen: `git commit -m 'Neues Feature'`
 4. Branch pushen: `git push origin feature/neues-feature`
 5. Pull Request erstellen
-
-## 📋 Roadmap
-
-- [ ] API-Integration für echte KI-Generierung
-- [ ] Erweiterte Feedback-Auswertung
-- [ ] Export-Funktionen für generierten Content
-- [ ] Mehrsprachige Unterstützung
-- [ ] Template-System für verschiedene Branchen
 
 ## 📄 Lizenz
 
@@ -157,4 +183,4 @@ MIT License - siehe LICENSE Datei für Details.
 
 ---
 
-**Wedding Website Genius** - Professionelles Copywriting für die Hochzeitsbranche mit ChristiansHRS 2.0 🎯
+**Wedding Website Genius** - Professionelles Backend-API Copywriting für die Hochzeitsbranche mit ChristiansHRS 2.0 🎯
