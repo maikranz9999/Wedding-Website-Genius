@@ -552,8 +552,8 @@
                 populateDropdown();
             } catch (error) {
                 console.error('Fehler beim Laden der CSV:', error);
-                // Fallback zu Demo-Daten
-                loadFallbackData();
+                showError('CSV-Anforderungen konnten nicht geladen werden. Bitte überprüfen Sie die data/requirements.csv Datei.');
+                document.getElementById('purpose').innerHTML = '<option value="">CSV-Daten nicht verfügbar</option>';
             }
         }
 
@@ -580,35 +580,9 @@
             return result;
         }
 
-        // Fallback Demo-Daten
-        function loadFallbackData() {
-            csvData = [
-                {
-                    sektion: "1. Startseite / Hero-Bereich",
-                    verwendungszweck: "Haupt-Headline (Positionierung in einem Satz)",
-                    woerter: "5–10",
-                    beispiel: "Exklusive Hochzeitsplanung für Süddeutschland"
-                },
-                {
-                    sektion: "1. Startseite / Hero-Bereich", 
-                    verwendungszweck: "Subheadline (Unterstützende Aussage / Nutzenversprechen)",
-                    woerter: "10–20",
-                    beispiel: "sowie an ausgewählten Destinationen wie Italien, Österreich & der Schweiz"
-                },
-                {
-                    sektion: "2. Über mich / Über uns",
-                    verwendungszweck: "Persönliche Geschichte / Werdegang", 
-                    woerter: "150–250",
-                    beispiel: ""
-                },
-                {
-                    sektion: "3. Leistungen / Angebote",
-                    verwendungszweck: "Einzelne Leistungsbox (Titel + Kurzbeschreibung)",
-                    woerter: "20–40", 
-                    beispiel: ""
-                }
-            ];
-            populateDropdown();
+        // Fehler anzeigen
+        function showError(message) {
+            addMessage(`❌ <strong>Fehler:</strong> ${message}`, false);
         }
 
         // Dropdown füllen
@@ -889,7 +863,7 @@ Schreibe den Text nach diesem Regelwerk in ChristiansHRS 2.0 Style.`;
             `;
         }
 
-        // Copy generieren - Demo-Modus
+        // Copy generieren - Backend API
         async function generateCopy() {
             const params = {
                 prompt: document.getElementById('prompt').value,
@@ -904,6 +878,11 @@ Schreibe den Text nach diesem Regelwerk in ChristiansHRS 2.0 Style.`;
                 alert('Bitte füllen Sie mindestens den Prompt und das Gewerk aus!');
                 return;
             }
+
+            // Disable button während Generierung
+            const generateBtn = document.querySelector('.generate-btn');
+            generateBtn.disabled = true;
+            generateBtn.textContent = '⏳ Generiere...';
 
             // User-Nachricht hinzufügen
             const purposeText = params.purpose ? 
@@ -920,43 +899,27 @@ Schreibe den Text nach diesem Regelwerk in ChristiansHRS 2.0 Style.`;
 
             showTyping();
             
-            // Demo-Copy generieren
-            setTimeout(() => {
-                const demoCopies = [
-                    `<span style="border-bottom: 2px solid lightblue;">Schluss mit Planungsstress</span> - eure Traumhochzeit verdient Perfektion. 
+            try {
+                // API-Call an Backend
+                const response = await fetch('/api/generate-copy', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(params)
+                });
 
-Ihr wisst genau, was ihr wollt. Eine Hochzeit, die euch zu 100% entspricht. Keine komplizierten Diskussionen, keine endlosen Listen, kein Drama. 
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error || `API-Fehler: ${response.status}`);
+                }
 
-Wir planen für Paare, die Qualität zu schätzen wissen. Die verstehen, dass eine perfekte Hochzeit ihren Preis hat. Und die diesen Preis gerne zahlen, wenn sie dafür das bekommen, was sie sich erträumt haben.
-
-<span style="border-bottom: 2px solid lightblue;">Euer großer Tag - professionell geplant, perfekt umgesetzt.</span>
-
-Schreibt uns. Heute noch.`,
-
-                    `Eure Hochzeit wird <span style="border-bottom: 2px solid lightblue;">einmalig</span> - warum sollte die Planung Standard sein?
-
-Ihr habt konkrete Vorstellungen. Einen klaren Geschmack. Ein festes Budget. Und ihr wisst: Qualität kostet.
-
-Bei uns gibt es keine Massenabfertigung. Keine Standard-Pakete. Keine Kompromisse. Wir arbeiten nur mit Paaren, die bereit sind, für ihre Traumhochzeit zu investieren.
-
-<span style="border-bottom: 2px solid lightblue;">10 Hochzeiten pro Jahr. Mehr nicht.</span> Dafür bekommt ihr unsere komplette Aufmerksamkeit.
-
-Klingt gut? Dann lasst uns reden.`,
-
-                    `Premium-Hochzeitsplanung für <span style="border-bottom: 2px solid lightblue;">anspruchsvolle Paare</span>.
-
-Keine endlosen Telefonate. Keine Last-Minute-Paniken. Keine bösen Überraschungen. Nur eure perfekte Hochzeit.
-
-Ihr investiert in euren wichtigsten Tag - wir sorgen dafür, dass jeder Euro richtig angelegt ist. Mit System, Erfahrung und einem Team, das eure Vision versteht.
-
-<span style="border-bottom: 2px solid lightblue;">Schreibt uns - aber nur, wenn ihr es ernst meint.</span>`
-                ];
-
-                const randomCopy = demoCopies[Math.floor(Math.random() * demoCopies.length)];
+                const data = await response.json();
+                const generatedCopy = data.copy;
                 
                 hideTyping();
                 
-                const evaluation = evaluateText(randomCopy.replace(/<[^>]*>/g, ''), params);
+                const evaluation = evaluateText(generatedCopy.replace(/<[^>]*>/g, ''), params);
                 currentCopyId = Date.now();
 
                 const feedbackHtml = createFeedbackSection(currentCopyId);
@@ -965,9 +928,9 @@ Ihr investiert in euren wichtigsten Tag - wir sorgen dafür, dass jeder Euro ric
                     <div style="background: #f8f9fa; padding: 20px; border-radius: 12px; margin: 15px 0;">
                         <h4>🎯 Generierter Copy (ChristiansHRS 2.0):</h4>
                         <div style="background: white; padding: 15px; border-radius: 8px; margin: 10px 0; border-left: 4px solid #000000;">
-                            ${randomCopy.replace(/\n/g, '<br>')}
+                            ${generatedCopy.replace(/\n/g, '<br>')}
                         </div>
-                        <button class="copy-btn" onclick="copyToClipboard('${randomCopy.replace(/'/g, "\\'")}')">
+                        <button class="copy-btn" onclick="copyToClipboard('${generatedCopy.replace(/'/g, "\\'")}')">
                             📋 Copy kopieren
                         </button>
                     </div>
@@ -978,7 +941,7 @@ Ihr investiert in euren wichtigsten Tag - wir sorgen dafür, dass jeder Euro ric
                 addMessage(copyHTML);
 
                 // Chat-Modus aktivieren und Daten speichern
-                lastGeneratedCopy = randomCopy;
+                lastGeneratedCopy = generatedCopy;
                 lastParams = params;
                 document.getElementById('chatInput').style.display = 'block';
 
@@ -986,15 +949,23 @@ Ihr investiert in euren wichtigsten Tag - wir sorgen dafür, dass jeder Euro ric
                 setTimeout(() => {
                     const feedbackSection = document.getElementById(`feedback-${currentCopyId}`);
                     if (feedbackSection) {
-                        feedbackSection.setAttribute('data-copy-text', randomCopy);
+                        feedbackSection.setAttribute('data-copy-text', generatedCopy);
                         feedbackSection.setAttribute('data-params', JSON.stringify(params));
                     }
                 }, 100);
-                
-            }, 2000);
+
+            } catch (error) {
+                hideTyping();
+                console.error('Generierung fehlgeschlagen:', error);
+                addMessage(`❌ <strong>Fehler bei der Copy-Generierung:</strong> ${error.message}<br><br>Bitte überprüfen Sie Ihre Backend-API-Konfiguration.`);
+            } finally {
+                // Button wieder aktivieren
+                generateBtn.disabled = false;
+                generateBtn.textContent = '✨ Copy generieren';
+            }
         }
 
-        // Chat-Nachricht senden - Demo-Modus
+        // Chat-Nachricht senden - Backend API
         async function sendChatMessage() {
             const messageInput = document.getElementById('chatMessage');
             const message = messageInput.value.trim();
@@ -1004,31 +975,35 @@ Ihr investiert in euren wichtigsten Tag - wir sorgen dafür, dass jeder Euro ric
                 return;
             }
 
+            if (!lastGeneratedCopy || !lastParams) {
+                alert('Bitte generieren Sie zuerst einen Copy!');
+                return;
+            }
+
             addMessage(message, true);
             messageInput.value = '';
             showTyping();
 
-            // Demo-Anpassung
-            setTimeout(() => {
-                const adaptedCopies = [
-                    `<span style="border-bottom: 2px solid lightblue;">Eure Traumhochzeit wartet</span> - wir machen sie wahr.
+            try {
+                const response = await fetch('/api/adapt-copy', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        originalCopy: lastGeneratedCopy,
+                        adaptationRequest: message,
+                        params: lastParams
+                    })
+                });
 
-Schluss mit Planungsstress und schlaflosen Nächten. Ihr habt eine Vision, wir haben die Erfahrung. Zusammen erschaffen wir euren perfekten Tag.
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error || `API-Fehler: ${response.status}`);
+                }
 
-<span style="border-bottom: 2px solid lightblue;">Keine Kompromisse. Keine Standard-Lösungen.</span> Nur das, was zu euch passt.
-
-Bereit? Schreibt uns.`,
-
-                    `Euer Hochzeitstag wird <span style="border-bottom: 2px solid lightblue;">unvergesslich</span> - garantiert.
-
-Wir planen nicht einfach Hochzeiten. Wir verwirklichen Träume. Mit Liebe zum Detail, jahrelanger Erfahrung und dem Verständnis dafür, was wirklich wichtig ist.
-
-<span style="border-bottom: 2px solid lightblue;">Qualität hat ihren Preis - und das ist gut so.</span>
-
-Lasst uns sprechen.`
-                ];
-
-                const adaptedCopy = adaptedCopies[Math.floor(Math.random() * adaptedCopies.length)];
+                const data = await response.json();
+                const adaptedCopy = data.adaptedCopy;
                 
                 hideTyping();
 
@@ -1061,7 +1036,11 @@ Lasst uns sprechen.`
                     }
                 }, 100);
 
-            }, 1500);
+            } catch (error) {
+                hideTyping();
+                console.error('Anpassung fehlgeschlagen:', error);
+                addMessage(`❌ <strong>Fehler bei der Copy-Anpassung:</strong> ${error.message}<br><br>Bitte überprüfen Sie Ihre Backend-API-Konfiguration.`);
+            }
         }
 
         // Copy kopieren
@@ -1092,7 +1071,7 @@ Lasst uns sprechen.`
 
             // Willkommensnachricht
             setTimeout(() => {
-                addMessage("Willkommen bei Wedding Website Genius mit ChristiansHRS 2.0!<br><br>🎯 <strong>Features:</strong><br>• Dynamische CSV-basierte Anforderungen<br>• ChristiansHRS 2.0 Tonalität<br>• Intelligentes Feedback-System<br>• Chat-basierte Anpassungen<br>• Vercel/GitHub Ready<br><br>Basiert auf dem bewährten 10-Punkte-Regelwerk für Hochzeitsdienstleister.<br><br>Wählen Sie einen Verwendungszweck und starten Sie die Generierung.");
+                addMessage("Willkommen bei Wedding Website Genius mit ChristiansHRS 2.0!<br><br>🎯 <strong>Features:</strong><br>• Backend-API Integration<br>• Dynamische CSV-basierte Anforderungen<br>• ChristiansHRS 2.0 Tonalität<br>• Intelligentes Feedback-System<br>• Chat-basierte Anpassungen<br><br>Basiert auf dem bewährten 10-Punkte-Regelwerk für Hochzeitsdienstleister.<br><br>⚠️ <strong>Hinweis:</strong> Backend-API erforderlich. Stellen Sie sicher, dass die Endpoints '/api/generate-copy' und '/api/adapt-copy' konfiguriert sind.");
             }, 1000);
         });
     </script>
