@@ -509,27 +509,8 @@
                 }
                 const csvText = await response.text();
                 
-                // Parse CSV manually - simple implementation
-                const lines = csvText.split('\n');
-                const headers = lines[0].split(',');
-                const data = [];
-                
-                for (let i = 1; i < lines.length; i++) {
-                    const line = lines[i].trim();
-                    if (line && !line.startsWith(',')) { // Ignoriere leere Zeilen und Zeilen die mit Komma beginnen
-                        const values = parseCSVLine(line);
-                        if (values && values.length >= 3 && values[0] && values[1]) {
-                            data.push({
-                                sektion: values[0].trim(),
-                                verwendungszweck: values[1].trim(),
-                                woerter: values[2] ? values[2].trim() : '',
-                                beispiel: values[3] ? values[3].trim() : ''
-                            });
-                        }
-                    }
-                }
-                
-                csvData = data;
+                // Verwende eine CSV-Bibliothek-ähnliche Funktion
+                csvData = parseCSVProperly(csvText);
                 populateDropdown();
             } catch (error) {
                 console.error('Fehler beim Laden der CSV:', error);
@@ -538,35 +519,55 @@
             }
         }
 
-        // CSV-Zeile parsen (robuste Implementierung)
-        function parseCSVLine(line) {
+        // Robuster CSV-Parser
+        function parseCSVProperly(csvText) {
+            const lines = csvText.split('\n');
             const result = [];
-            let current = '';
-            let inQuotes = false;
             
-            for (let i = 0; i < line.length; i++) {
-                const char = line[i];
+            // Header überspringen (erste Zeile)
+            for (let i = 1; i < lines.length; i++) {
+                const line = lines[i].trim();
+                if (!line) continue; // Leere Zeilen überspringen
                 
-                if (char === '"') {
-                    if (inQuotes && line[i + 1] === '"') {
-                        // Escaped quote
-                        current += '"';
-                        i++; // Skip next quote
+                const columns = [];
+                let currentColumn = '';
+                let insideQuotes = false;
+                
+                for (let j = 0; j < line.length; j++) {
+                    const char = line[j];
+                    const nextChar = line[j + 1];
+                    
+                    if (char === '"') {
+                        if (insideQuotes && nextChar === '"') {
+                            // Escaped quote
+                            currentColumn += '"';
+                            j++; // Skip next quote
+                        } else {
+                            insideQuotes = !insideQuotes;
+                        }
+                    } else if (char === ',' && !insideQuotes) {
+                        columns.push(currentColumn.trim());
+                        currentColumn = '';
                     } else {
-                        inQuotes = !inQuotes;
+                        currentColumn += char;
                     }
-                } else if (char === ',' && !inQuotes) {
-                    result.push(current.trim().replace(/^"|"$/g, ''));
-                    current = '';
-                } else {
-                    current += char;
+                }
+                
+                // Add the last column
+                columns.push(currentColumn.trim());
+                
+                // Nur verarbeiten wenn mindestens 3 Spalten und erste beiden nicht leer
+                if (columns.length >= 3 && columns[0] && columns[1]) {
+                    result.push({
+                        sektion: columns[0],
+                        verwendungszweck: columns[1],
+                        woerter: columns[2] || '',
+                        beispiel: columns[3] || ''
+                    });
                 }
             }
             
-            result.push(current.trim().replace(/^"|"$/g, ''));
-            
-            // Nur zurückgeben wenn mindestens 3 Spalten vorhanden
-            return result.length >= 3 ? result : null;
+            return result;
         }
 
         // Fehler anzeigen
@@ -579,12 +580,20 @@
             const purposeSelect = document.getElementById('purpose');
             purposeSelect.innerHTML = '<option value="">Bitte wählen Sie einen Verwendungszweck...</option>';
             
+            console.log('CSV Data:', csvData); // Debug-Ausgabe
+            
             let currentSection = '';
             
             csvData.forEach((item, index) => {
+                console.log(`Item ${index}:`, item); // Debug einzelne Items
+                
                 if (item.sektion !== currentSection) {
                     if (currentSection !== '') {
-                        purposeSelect.appendChild(document.createElement('option')).disabled = true;
+                        // Spacer zwischen Gruppen
+                        const spacer = document.createElement('option');
+                        spacer.disabled = true;
+                        spacer.textContent = '────────────';
+                        purposeSelect.appendChild(spacer);
                     }
                     
                     const optgroup = document.createElement('optgroup');
@@ -604,6 +613,8 @@
                     purposeSelect.appendChild(option);
                 }
             });
+            
+            console.log('Dropdown populated with', csvData.length, 'items'); // Debug
         }
 
         // Emoji für Sektion
@@ -896,7 +907,6 @@ Schreibe den Text nach diesem Regelwerk in ChristiansHRS 2.0 Style.`;
                 
                 hideTyping();
                 
-                const evaluation = evaluateText(generatedCopy.replace(/<[^>]*>/g, ''), params);
                 currentCopyId = Date.now();
 
                 const feedbackHtml = createFeedbackSection(currentCopyId);
@@ -908,7 +918,6 @@ Schreibe den Text nach diesem Regelwerk in ChristiansHRS 2.0 Style.`;
                             ${generatedCopy.replace(/\n/g, '<br>')}
                         </div>
                     </div>
-                    ${generateEvaluationHTML(evaluation, evaluation.totalScore)}
                 `;
 
                 addMessage(copyHTML);
@@ -971,7 +980,6 @@ Schreibe den Text nach diesem Regelwerk in ChristiansHRS 2.0 Style.`;
                 
                 hideTyping();
 
-                const evaluation = evaluateText(adaptedCopy.replace(/<[^>]*>/g, ''), lastParams);
                 currentCopyId = Date.now();
                 const feedbackHtml = createFeedbackSection(currentCopyId);
 
@@ -982,7 +990,6 @@ Schreibe den Text nach diesem Regelwerk in ChristiansHRS 2.0 Style.`;
                             ${adaptedCopy.replace(/\n/g, '<br>')}
                         </div>
                     </div>
-                    ${generateEvaluationHTML(evaluation, evaluation.totalScore)}
                 `;
 
                 addMessage(copyHTML);
