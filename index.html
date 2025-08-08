@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wedding Website Genius - Der intelligente Copywriting-Bot</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #ffffff;
+            min-height: 100vh;
+            padding: 20px;
+            color: #000000;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            overflow: hidden;
+            display: flex;
+            height: 90vh;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .sidebar {
+            width: 400px;
+            background: #fafafa;
+            padding: 30px 25px;
+            border-right: 1px solid #e0e0e0;
+            overflow-y: auto;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: #000000;
+            margin-bottom: 30px;
+            text-align: center;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            font-weight: 500;
+            color: #000000;
+            margin-bottom: 6px;
+            font-size: 14px;
+        }
+
+        .input-group select,
+        .input-group input,
+        .input-group textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #d0d0d0;
+            border-radius: 4px;
+            font-size: 14px;
+            transition: border-color 0.2s;
+            background: white;
+            color: #000000;
+        }
+
+        .input-group select:focus,
+        .input-group input:focus,
+        .input-group textarea:focus {
+            outline: none;
+            border-color: #000000;
+        }
+
+        .input-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .input-group small {
+            color: #666666;
+            font-size: 11px;
+            margin-top: 4px;
+            display: block;
+        }
+
+        .generate-btn {
+            width: 100%;
+            padding: 12px;
+            background: #000000;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .generate-btn:hover {
+            background: #333333;
+        }
+
+        .generate-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .feedback-stats {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 20px;
+            border: 1px solid #e0e0e0;
+        }
+
+        .feedback-stats h4 {
+            margin-bottom: 10px;
+            font-size: 13px;
+            color: #333;
+        }
+
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            margin-bottom: 5px;
+        }
+
+        .chat-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .chat-header {
+            background: #000000;
+            color: white;
+            padding: 20px 30px;
+            font-weight: 500;
+            font-size: 16px;
+        }
+
+        .messages {
+            flex: 1;
+            padding: 30px;
+            overflow-y: auto;
+            background: white;
+        }
+
+        .message {
+            margin-bottom: 20px;
+            opacity: 0;
+            animation: fadeIn 0.3s forwards;
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        .message.user {
+            text-align: right;
+        }
+
+        .message.bot {
+            text-align: left;
+        }
+
+        .message-content {
+            display: inline-block;
+            max-width: 80%;
+            padding: 15px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .message.user .message-content {
+            background: #000000;
+            color: white;
+        }
+
+        .message.bot .message-content {
+            background: #f5f5f5;
+            color: #000000;
+            border: 1px solid #e0e0e0;
+        }
+
+        .typing {
+            display: none;
+            text-align: left;
+        }
+
+        .typing .message-content {
+            background: #f5f5f5;
+            border: 1px solid #e0e0e0;
+        }
+
+        .typing-dots {
+            display: inline-flex;
+            gap: 4px;
+        }
+
+        .typing-dots span {
+            width: 6px;
+            height: 6px;
+            background: #000000;
+            border-radius: 50%;
+            animation: typing 1.4s infinite ease-in-out;
+        }
+
+        .typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes typing {
+            0%, 80%, 100% { transform: scale(0.8); opacity: 0.3; }
+            40% { transform: scale(1); opacity: 1; }
+        }
+
+        .evaluation {
+            background: #f8f8f8;
+            border-left: 3px solid #000000;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 4px 4px 0;
+        }
+
+        .rule-score {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 6px 0;
+            font-size: 13px;
+        }
+
+        .score-badge {
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-size: 11px;
+            font-weight: 500;
+        }
+
+        .score-ok { background: #000000; color: white; }
+        .score-warn { background: #cccccc; color: #333333; }
+        .score-error { background: #f0f0f0; color: #666666; border: 1px solid #ddd; }
+
+        .copy-btn {
+            background: #000000;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 11px;
+            margin-top: 8px;
+        }
+
+        .copy-btn:hover {
+            background: #333333;
+        }
+
+        .feedback-section {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+
+        .feedback-question {
+            font-weight: 500;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .feedback-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .feedback-btn {
+            padding: 8px 16px;
+            border: 2px solid #dee2e6;
+            background: white;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 13px;
+        }
+
+        .feedback-btn:hover {
+            border-color: #000000;
+        }
+
+        .feedback-btn.selected {
+            background: #000000;
+            color: white;
+            border-color: #000000;
+        }
+
+        .feedback-btn.positive.selected {
+            background: #28a745;
+            border-color: #28a745;
+        }
+
+        .feedback-btn.negative.selected {
+            background: #dc3545;
+            border-color: #dc3545;
+        }
+
+        .feedback-comment {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            resize: vertical;
+            min-height: 60px;
+            font-size: 13px;
+        }
+
+        .feedback-submit {
+            background: #000000;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+            font-size: 13px;
+        }
+
+        .feedback-submit:hover {
+            background: #333333;
+        }
+
+        .feedback-submitted {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+            padding: 10px;
+            border-radius: 4px;
+            text-align: center;
+            font-size: 13px;
+        }
+
+        .welcome {
+            text-align: center;
+            color: #666666;
+            font-size: 15px;
+            margin-top: 80px;
+        }
+
+        .welcome h3 {
+            color: #000000;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                height: auto;
+                min-height: 90vh;
+            }
+            
+            .sidebar {
+                width: 100%;
+                padding: 20px;
+            }
+            
+            .chat-area {
+                min-height: 400px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <div class="logo">Wedding Website Genius</div>
+            
+            <div class="input-group">
+                <label>Verwendungszweck</label>
+                <select id="purpose">
+                    <option value="">Bitte wählen Sie einen Verwendungszweck...</option>
+                    <optgroup label="🏠 1. Startseite / Hero-Bereich">
+                        <option value="headline|5-10|Exklusive Hochzeits­planung für Süd­deutschland">Haupt-Headline (Positionierung in einem Satz) - 5–10 Wörter</option>
+                        <option value="subheadline|10-20|sowie an ausgewählten Destinationen wie Italien, Österreich & der Schweiz">Subheadline (Unterstützende Aussage / Nutzenversprechen) - 10–20 Wörter</option>
+                        <option value="bulletpoints|je 5-12|Premium-Preise ohne Diskussion + Systematisch planbare Anfragen + Sofort-Buchungen statt Vergleiche">3 Bullet Points (USP / Positionierung) - je 5–12 Wörter</option>
+                    </optgroup>
+                    <optgroup label="👤 2. Über mich / Über uns">
+                        <option value="why|50-80">Einleitungstext „Warum du das machst, was du machst" - 50–80 Wörter</option>
+                        <option value="story|150-250">Persönliche Geschichte / Werdegang - 150–250 Wörter</option>
+                        <option value="values|50-100">Werte & Philosophie - 50–100 Wörter</option>
+                        <option value="team|je 30-50">Teamvorstellung (Kurztexte zu Teammitgliedern) - je 30–50 Wörter</option>
+                    </optgroup>
+                    <optgroup label="⚡ 3. Leistungen / Angebote">
+                        <option value="services_intro|40-70">Einleitungstext zu den Leistungsboxen - 40–70 Wörter</option>
+                        <option value="service_box|20-40">Einzelne Leistungsbox (Titel + Kurzbeschreibung) - 20–40 Wörter</option>
+                        <option value="service_detail|200-400">Ausführliche Leistungsbeschreibung (Detailseite) - 200–400 Wörter</option>
+                        <option value="pas|100-200">PAS (Problem / Agitation / Solution) zu einer konkreten Leistung - 100–200 Wörter</option>
+                        <option value="package|50-120">Paketbeschreibung (Leistungspakete / Preisstruktur) - 50–120 Wörter</option>
+                    </optgroup>
+                    <optgroup label="📸 4. Portfolio / Referenzen">
+                        <option value="portfolio_intro|40-80">Einleitungstext Portfolio - 40–80 Wörter</option>
+                        <option value="portfolio_project|80-150">Beschreibung eines Portfolio-Projekts (Shooting oder Wedding) - 80–150 Wörter</option>
+                    </optgroup>
+                    <optgroup label="📞 6. Kontakt">
+                        <option value="contact_intro|20-40">Einleitungstext „So kannst du mich erreichen" - 20–40 Wörter</option>
+                        <option value="contact_cta|5-12">Kontakt-Call-to-Action (z. B. „Jetzt Termin vereinbaren") - 5–12 Wörter</option>
+                        <option value="contact_process|50-100">Wie geht es nach einer Anfrage weiter? - 50–100 Wörter</option>
+                    </optgroup>
+                    <optgroup label="🔍 7. SEO-Elemente">
+                        <option value="meta_title|max 60 Zeichen">Meta-Titel (SEO Title) - max. 60 Zeichen</option>
+                        <option value="meta_description|max 160 Zeichen">Meta-Beschreibung - max. 160 Zeichen</option>
+                    </optgroup>
+                    <optgroup label="❓ 8. Sonstige Inhaltsbereiche">
+                        <option value="faq|30-80 pro Antwort">FAQ-Fragen & Antworten - 30–80 pro Antwort</option>
+                    </optgroup>
+                </select>
+                <small>Die Textlänge wird automatisch an den gewählten Verwendungszweck angepasst.</small>
+            </div>
+
+            <div class="input-group">
+                <label>Grundsätzlicher Prompt</label>
+                <textarea id="prompt" placeholder="z.B. Schreibe einen ausführlichen Text für meine Landingpage, Schreibe eine kurze Instagram Caption, Schreibe für einen Blogbeitrag eine coole Einleitung..." rows="4"></textarea>
+            </div>
+
+            <div class="input-group">
+                <label>Gewerk - Welche Dienstleistung bieten Sie an?</label>
+                <input type="text" id="service" placeholder="z.B. Hochzeitsplanung, Fotografie, Catering...">
+            </div>
+
+            <div class="input-group">
+                <label>Zielgruppe (optional)</label>
+                <input type="text" id="target" placeholder="z.B. Brautpaare 25-35, Luxussegment...">
+            </div>
+
+            <div class="input-group">
+                <label>USP - Was macht Sie einzigartig? (optional)</label>
+                <textarea id="usp" placeholder="z.B. Nur 10 Hochzeiten pro Jahr, spezialisiert auf Vintage-Stil..." rows="3"></textarea>
+            </div>
+
+            <div class="input-group">
+                <label>Tonalität</label>
+                <select id="tone" disabled style="background: #f5f5f5; color: #666;">
+                    <option value="hardcore">Christians Hardcore Realtalk Style</option>
+                </select>
+            </div>
+
+            <button class="generate-btn" onclick="generateCopy()">
+                ✨ Copy generieren
+            </button>
+
+            <div class="feedback-stats" id="feedbackStats">
+                <h4>📊 Feedback-Statistiken</h4>
+                <div class="stat-item">
+                    <span>Positive Bewertungen:</span>
+                    <span id="positiveCount">0</span>
+                </div>
+                <div class="stat-item">
+                    <span>Negative Bewertungen:</span>
+                    <span id="negativeCount">0</span>
+                </div>
+                <div class="stat-item">
+                    <span>Gesamt generiert:</span>
+                    <span id="totalCount">0</span>
+                </div>
+                <div class="stat-item">
+                    <span>Zufriedenheitsrate:</span>
+                    <span id="satisfactionRate">-</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="chat-area">
+            <div class="chat-header">
+                Intelligenter Copywriter für Hochzeitsdienstleister
+            </div>
+            <div class="messages" id="messages">
+                <div class="welcome">
+                    <h3>Wedding Website Genius</h3>
+                    <p>Professionelle Copywriting-KI speziell für Hochzeitsdienstleister.<br>
+                    Basiert auf bewährtem 10-Punkte-Regelwerk mit intelligentem Feedback-System.</p>
+                </div>
+            </div>
+            
+            <div class="typing" id="typing">
+                <div class="message-content">
+                    <div class="typing-dots">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chat-input" id="chatInput" style="display: none;">
+                <div style="padding: 20px; border-top: 1px solid #e0e0e0; background: #f8f9fa;">
+                    <div style="display: flex; gap: 10px; align-items: flex-end;">
+                        <textarea id="chatMessage" placeholder="z.B. 'Mach es kürzer', 'Mehr Emotion', 'Andere Tonalität'..." 
+                                style="flex: 1; padding: 10px; border: 1px solid #d0d0d0; border-radius: 4px; resize: none; min-height: 40px; max-height: 100px;"></textarea>
+                        <button onclick="sendChatMessage()" id="sendBtn" 
+                                style="padding: 10px 20px; background: #000000; color: white; border: none; border-radius: 4px; cursor: pointer; white-space: nowrap;">
+                            📤 Senden
+                        </button>
+                    </div>
+                    <div style="font-size: 11px; color: #666; margin-top: 5px;">
+                        💡 Tipp: Schreiben Sie direkt Ihre Änderungswünsche für den letzten Copy
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Globale Variablen
+        let currentCopyId = null;
+        let lastGeneratedCopy = '';
+        let lastParams = {};
+        let feedbackData = {
+            feedbacks: [],
+            stats: { total: 0, positive: 0, negative: 0 }
+        };
+
+        // Copywriting-Regeln für Evaluation
+        const copywritingRules = {
+            1: { name: "Zielgruppenfokus", weight: 0.15 },
+            2: { name: "Klarer USP", weight: 0.15 },
+            3: { name: "Emotion ohne Kitsch", weight: 0.1 },
+            4: { name: "Struktur & Leserführung", weight: 0.15 },
+            5: { name: "Verständliche Sprache", weight: 0.1 },
+            6: { name: "Problemorientierung", weight: 0.1 },
+            7: { name: "Prägnanz", weight: 0.05 },
+            8: { name: "Visuelle Bildsprache", weight: 0.05 },
+            9: { name: "Call to Action", weight: 0.1 },
+            10: { name: "Stilmittel", weight: 0.05 }
+        };
+
+        // Feedback laden - ohne localStorage
+        function loadFeedbackData() {
+            // Initialisiert mit Standardwerten
+            updateStatsDisplay();
+        }
+
+        // Feedback speichern - Daten bleiben nur in Session
+        function saveFeedbackData() {
+            updateStatsDisplay();
+        }
+
+        // Statistiken aktualisieren
+        function updateStatsDisplay() {
+            const satisfactionRate = feedbackData.stats.total > 0 
+                ? Math.round((feedbackData.stats.positive / feedbackData.stats.total) * 100) 
+                : 0;
+
+            document.getElementById('positiveCount').textContent = feedbackData.stats.positive;
+            document.getElementById('negativeCount').textContent = feedbackData.stats.negative;
+            document.getElementById('totalCount').textContent = feedbackData.stats.total;
+            document.getElementById('satisfactionRate').textContent = satisfactionRate + '%';
+        }
+
+        // System Prompt generieren
+        function createSystemPrompt(params) {
+            let prompt = `Du bist ein professioneller Copywriter für die Hochzeitsbranche, der nach einem strukturierten 10-Punkte-Regelwerk arbeitet:
+
+1. Zielgruppenfokus: Sprich die definierte Zielgruppe direkt an
+2. Klarer USP: Hebe das Alleinstellungsmerkmal hervor  
+3. Emotion ohne Kitsch: Verwende echte, greifbare Bilder statt Phrasen
+4. Struktur & Leserführung: Hook → Problem → Lösung → CTA
+5. Verständliche Sprache: Kurze, präzise Sätze
+6. Problemorientierung: Benenne konkrete Probleme der Zielgruppe
+7. Prägnanz: Jeder Satz muss eine Funktion erfüllen
+8. Visuelle Bildsprache: Erzeuge "Kino im Kopf"
+9. Call to Action: Leite zur Handlung
+10. Stilmittel: Nutze alle 40 Wörter mindestens ein rhetorisches Stilmittel
+
+CHRISTIANS HARDCORE REALTALK STYLE - WICHTIGE REGELN:
+
+POSITIV-DIREKT FORMULIEREN:
+✅ "Ihr wisst genau, was ihr wollt"
+✅ "Eure Vision verdient Realität"
+✅ "Ihr habt klare Vorstellungen"
+✅ "Qualität ist euch wichtig"
+
+NIEMALS KONKURRENZ/KOLLEGEN SCHLECHTMACHEN:
+❌ "Während andere euch mit Standard-Paketen abspeisen"
+❌ "Andere Anbieter versagen bei..."
+❌ "Im Gegensatz zu anderen..."
+❌ "Wo andere scheitern..."
+
+PROBLEME BENENNEN - ABER RICHTIG:
+✅ "Keine endlosen Telefonate"
+✅ "Schluss mit Planungsstress"
+✅ "Nie wieder schlaflose Nächte wegen Details"
+✅ "Weg mit der Überforderung"
+
+HARDCORE BEDEUTET:
+- Direkte, ehrliche Kommunikation
+- Konkrete Fakten statt Marketing-Floskeln
+- "Real Talk" - aber immer AUFBAUEND
+- Probleme lösen, nicht Schuldige suchen
+- Fokus auf POSITIVE Abgrenzung durch eigene Stärken
+
+STILMITTEL-MARKIERUNG:
+- Wenn du ein rhetorisches Stilmittel verwendest, markiere es mit <span style="border-bottom: 2px solid lightblue;">Text mit Stilmittel</span>
+
+FORMATIERUNG:
+- Verwende die Stilmittel-Markierung wie oben beschrieben
+- Ansonsten keine weiteren Formatierungszeichen
+- Reiner, sauberer Text
+- Keine Markdown-Syntax`;
+
+            // Verwendungszweck hinzufügen
+            if (params.purpose && params.purpose.trim() !== '') {
+                const purposeParts = params.purpose.split('|');
+                const wordCount = purposeParts[1] || '';
+                const example = purposeParts[2] || '';
+                
+                const purposeSelect = document.getElementById('purpose');
+                const selectedText = purposeSelect && purposeSelect.selectedOptions[0] ? 
+                    purposeSelect.selectedOptions[0].textContent : 
+                    'Verwendungszweck ausgewählt';
+
+                prompt += `
+
+VERWENDUNGSZWECK & TEXTLÄNGE:
+- Zweck: ${selectedText}
+- Empfohlene Wortanzahl: ${wordCount} Wörter
+${example ? `- Beispiel-Orientierung: "${example}"` : ''}
+- WICHTIG: Halte dich an diese Wortanzahl-Vorgabe!`;
+            }
+
+            // Parameter hinzufügen
+            prompt += `
+
+Gewerk: ${params.service || 'Nicht angegeben'}
+${params.target ? `Zielgruppe: ${params.target}` : ''}
+${params.usp ? `USP: ${params.usp}` : ''}
+
+Schreibe den Text nach diesem Regelwerk in Christians Hardcore Realtalk Style.`;
+
+            return prompt;
+        }
+
+        // Nachricht hinzufügen
+        function addMessage(content, isUser = false) {
+            const messages = document.getElementById('messages');
+            const message = document.createElement('div');
+            message.className = `message ${isUser ? 'user' : 'bot'}`;
+            
+            const messageContent = document.createElement('div');
+            messageContent.className = 'message-content';
+            messageContent.innerHTML = content;
+            
+            message.appendChild(messageContent);
+            messages.appendChild(message);
+            messages.scrollTop = messages.scrollHeight;
+        }
+
+        function showTyping() {
+            document.getElementById('typing').style.display = 'block';
+            document.getElementById('messages').scrollTop = document.getElementById('messages').scrollHeight + 100;
+        }
+
+        function hideTyping() {
+            document.getElementById('typing').style.display = 'none';
+        }
+
+        // Text evaluieren
+        function evaluateText(text, params) {
+            const evaluation = {};
+            let totalScore = 0;
+
+            // Vereinfachte Bewertung
+            evaluation[1] = params.target && text.toLowerCase().includes(params.target.toLowerCase().split(' ')[0]) ? 'ok' : 'warn';
+            evaluation[2] = params.usp && (text.includes('anders') || text.includes('besonders') || text.includes('einzigartig')) ? 'ok' : 'warn';
+            evaluation[3] = ['träum', 'gefühl', 'herz', 'moment', 'erinnerung'].some(word => text.toLowerCase().includes(word)) ? 'ok' : 'warn';
+            evaluation[4] = (text.includes('?') || text.includes('!')) && (text.toLowerCase().includes('schreib') || text.toLowerCase().includes('kontakt')) ? 'ok' : 'warn';
+            evaluation[5] = text.split('.').length > 2 ? 'ok' : 'warn';
+            evaluation[6] = ['problem', 'stress', 'chaos', 'schwierig'].some(word => text.toLowerCase().includes(word)) ? 'ok' : 'warn';
+            evaluation[7] = text.length > 100 && text.length < 500 ? 'ok' : 'warn';
+            evaluation[8] = ['stellt euch vor', 'bild', 'sehen', 'vorstellen'].some(phrase => text.toLowerCase().includes(phrase)) ? 'ok' : 'warn';
+            evaluation[9] = text.toLowerCase().includes('schreib') || text.toLowerCase().includes('kontakt') ? 'ok' : 'error';
+            evaluation[10] = text.includes('?') || text.includes('!') ? 'ok' : 'warn';
+
+            // Score berechnen
+            Object.keys(evaluation).forEach(rule => {
+                const score = evaluation[rule] === 'ok' ? 1 : (evaluation[rule] === 'warn' ? 0.5 : 0);
+                totalScore += score * copywritingRules[rule].weight;
+            });
+
+            return { evaluation, totalScore: Math.round(totalScore * 100) };
+        }
+
+        // Evaluation HTML
+        function generateEvaluationHTML(evaluation, totalScore) {
+            let html = `<div class="evaluation">
+                <strong>📊 Regelwerk-Bewertung: ${totalScore}%</strong><br><br>`;
+            
+            Object.keys(evaluation.evaluation).forEach(rule => {
+                const score = evaluation.evaluation[rule];
+                const ruleName = copywritingRules[rule].name;
+                html += `<div class="rule-score">
+                    <span>Regel ${rule}: ${ruleName}</span>
+                    <span class="score-badge score-${score}">${score.toUpperCase()}</span>
+                </div>`;
+            });
+            
+            html += '</div>';
+            return html;
+        }
+
+        // Feedback Section
+        function createFeedbackSection(copyId) {
+            return `
+                <div class="feedback-section" id="feedback-${copyId}">
+                    <div class="feedback-question">Wie zufrieden sind Sie mit diesem Copy?</div>
+                    <div class="feedback-buttons">
+                        <button class="feedback-btn positive" onclick="selectRating(${copyId}, 5, this)">😍 Perfekt</button>
+                        <button class="feedback-btn positive" onclick="selectRating(${copyId}, 4, this)">👍 Gut</button>
+                        <button class="feedback-btn" onclick="selectRating(${copyId}, 3, this)">😐 Okay</button>
+                        <button class="feedback-btn negative" onclick="selectRating(${copyId}, 2, this)">👎 Schlecht</button>
+                        <button class="feedback-btn negative" onclick="selectRating(${copyId}, 1, this)">😡 Schrott</button>
+                    </div>
+                    <textarea class="feedback-comment" id="comment-${copyId}" placeholder="Optionaler Kommentar: Was gefällt Ihnen besonders gut oder was könnte verbessert werden?"></textarea>
+                    <button class="feedback-submit" onclick="submitFeedback(${copyId})" id="submit-${copyId}" disabled>
+                        Feedback absenden
+                    </button>
+                </div>
+            `;
+        }
+
+        function selectRating(copyId, rating, button) {
+            const section = document.getElementById(`feedback-${copyId}`);
+            section.querySelectorAll('.feedback-btn').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+            button.classList.add('selected');
+            button.parentElement.setAttribute('data-rating', rating);
+            document.getElementById(`submit-${copyId}`).disabled = false;
+        }
+
+        function submitFeedback(copyId) {
+            const section = document.getElementById(`feedback-${copyId}`);
+            const rating = parseInt(section.querySelector('.feedback-buttons').getAttribute('data-rating'));
+            const comment = document.getElementById(`comment-${copyId}`).value;
+
+            if (!rating) {
+                alert('Bitte wählen Sie eine Bewertung aus!');
+                return;
+            }
+
+            // Feedback speichern
+            feedbackData.feedbacks.push({
+                id: copyId,
+                rating: rating,
+                comment: comment,
+                timestamp: new Date().toISOString()
+            });
+
+            feedbackData.stats.total++;
+            if (rating >= 4) {
+                feedbackData.stats.positive++;
+            } else if (rating <= 2) {
+                feedbackData.stats.negative++;
+            }
+
+            saveFeedbackData();
+
+            // UI aktualisieren
+            section.innerHTML = `
+                <div class="feedback-submitted">
+                    ✅ Vielen Dank für Ihr Feedback! Dieses wird bei zukünftigen Generierungen berücksichtigt.
+                </div>
+            `;
+        }
+
+        // Copy generieren - Demo-Modus ohne API
+        async function generateCopy() {
+            const params = {
+                prompt: document.getElementById('prompt').value,
+                service: document.getElementById('service').value,
+                target: document.getElementById('target').value,
+                usp: document.getElementById('usp').value,
+                tone: document.getElementById('tone').value,
+                purpose: document.getElementById('purpose').value
+            };
+
+            if (!params.prompt || !params.service) {
+                alert('Bitte füllen Sie mindestens den Prompt und das Gewerk aus!');
+                return;
+            }
+
+            // User-Nachricht hinzufügen
+            addMessage(`Neuer Copy angefordert:<br>
+                <strong>Prompt:</strong> ${params.prompt}<br>
+                <strong>Gewerk:</strong> ${params.service}<br>
+                ${params.target ? `<strong>Zielgruppe:</strong> ${params.target}<br>` : ''}
+                ${params.usp ? `<strong>USP:</strong> ${params.usp}<br>` : ''}
+                ${params.purpose ? `<strong>Verwendungszweck:</strong> ${document.getElementById('purpose').selectedOptions[0].textContent}<br>` : ''}
+                <strong>Tonalität:</strong> ${params.tone}`, true);
+
+            showTyping();
+            
+            // Demo-Copy generieren
+            setTimeout(() => {
+                const demoCopies = [
+                    `<span style="border-bottom: 2px solid lightblue;">Schluss mit Planungsstress</span> - eure Traumhochzeit verdient Perfektion. 
+
+Ihr wisst genau, was ihr wollt. Eine Hochzeit, die euch zu 100% entspricht. Keine komplizierten Diskussionen, keine endlosen Listen, kein Drama. 
+
+Wir planen für Paare, die Qualität zu schätzen wissen. Die verstehen, dass eine perfekte Hochzeit ihren Preis hat. Und die diesen Preis gerne zahlen, wenn sie dafür das bekommen, was sie sich erträumt haben.
+
+<span style="border-bottom: 2px solid lightblue;">Euer großer Tag - professionell geplant, perfekt umgesetzt.</span>
+
+Schreibt uns. Heute noch.`,
+
+                    `Eure Hochzeit wird <span style="border-bottom: 2px solid lightblue;">einmalig</span> - warum sollte die Planung Standard sein?
+
+Ihr habt konkrete Vorstellungen. Einen klaren Geschmack. Ein festes Budget. Und ihr wisst: Qualität kostet.
+
+Bei uns gibt es keine Massenabfertigung. Keine Standard-Pakete. Keine Kompromisse. Wir arbeiten nur mit Paaren, die bereit sind, für ihre Traumhochzeit zu investieren.
+
+<span style="border-bottom: 2px solid lightblue;">10 Hochzeiten pro Jahr. Mehr nicht.</span> Dafür bekommt ihr unsere komplette Aufmerksamkeit.
+
+Klingt gut? Dann lasst uns reden.`,
+
+                    `Premium-Hochzeitsplanung für <span style="border-bottom: 2px solid lightblue;">anspruchsvolle Paare</span>.
+
+Keine endlosen Telefonate. Keine Last-Minute-Paniken. Keine bösen Überraschungen. Nur eure perfekte Hochzeit.
+
+Ihr investiert in euren wichtigsten Tag - wir sorgen dafür, dass jeder Euro richtig angelegt ist. Mit System, Erfahrung und einem Team, das eure Vision versteht.
+
+<span style="border-bottom: 2px solid lightblue;">Schreibt uns - aber nur, wenn ihr es ernst meint.</span>`
+                ];
+
+                const randomCopy = demoCopies[Math.floor(Math.random() * demoCopies.length)];
+                
+                hideTyping();
+                
+                const evaluation = evaluateText(randomCopy.replace(/<[^>]*>/g, ''), params);
+                currentCopyId = Date.now();
+
+                const feedbackHtml = createFeedbackSection(currentCopyId);
+
+                const copyHTML = `
+                    <div style="background: #f8f9fa; padding: 20px; border-radius: 12px; margin: 15px 0;">
+                        <h4>🎯 Generierter Copy (Demo-Modus):</h4>
+                        <div style="background: white; padding: 15px; border-radius: 8px; margin: 10px 0; border-left: 4px solid #000000;">
+                            ${randomCopy.replace(/\n/g, '<br>')}
+                        </div>
+                        <button class="copy-btn" onclick="copyToClipboard('${randomCopy.replace(/'/g, "\\'")}')">
+                            📋 Copy kopieren
+                        </button>
+                    </div>
+                    ${generateEvaluationHTML(evaluation, evaluation.totalScore)}
+                    ${feedbackHtml}
+                `;
+
+                addMessage(copyHTML);
+
+                // Chat-Modus aktivieren und Daten speichern
+                lastGeneratedCopy = randomCopy;
+                lastParams = params;
+                document.getElementById('chatInput').style.display = 'block';
+
+                // Feedback-Section-Attribute setzen
+                setTimeout(() => {
+                    const feedbackSection = document.getElementById(`feedback-${currentCopyId}`);
+                    if (feedbackSection) {
+                        feedbackSection.setAttribute('data-copy-text', randomCopy);
+                        feedbackSection.setAttribute('data-params', JSON.stringify(params));
+                    }
+                }, 100);
+                
+            }, 2000);
+        }
+
+        // Chat-Nachricht senden - Demo-Modus
+        async function sendChatMessage() {
+            const messageInput = document.getElementById('chatMessage');
+            const message = messageInput.value.trim();
+            
+            if (!message) {
+                alert('Bitte geben Sie eine Nachricht ein!');
+                return;
+            }
+
+            addMessage(message, true);
+            messageInput.value = '';
+            showTyping();
+
+            // Demo-Anpassung
+            setTimeout(() => {
+                const adaptedCopies = [
+                    `<span style="border-bottom: 2px solid lightblue;">Eure Traumhochzeit wartet</span> - wir machen sie wahr.
+
+Schluss mit Planungsstress und schlaflosen Nächten. Ihr habt eine Vision, wir haben die Erfahrung. Zusammen erschaffen wir euren perfekten Tag.
+
+<span style="border-bottom: 2px solid lightblue;">Keine Kompromisse. Keine Standard-Lösungen.</span> Nur das, was zu euch passt.
+
+Bereit? Schreibt uns.`,
+
+                    `Euer Hochzeitstag wird <span style="border-bottom: 2px solid lightblue;">unvergesslich</span> - garantiert.
+
+Wir planen nicht einfach Hochzeiten. Wir verwirklichen Träume. Mit Liebe zum Detail, jahrelanger Erfahrung und dem Verständnis dafür, was wirklich wichtig ist.
+
+<span style="border-bottom: 2px solid lightblue;">Qualität hat ihren Preis - und das ist gut so.</span>
+
+Lasst uns sprechen.`
+                ];
+
+                const adaptedCopy = adaptedCopies[Math.floor(Math.random() * adaptedCopies.length)];
+                
+                hideTyping();
+
+                const evaluation = evaluateText(adaptedCopy.replace(/<[^>]*>/g, ''), lastParams);
+                currentCopyId = Date.now();
+                const feedbackHtml = createFeedbackSection(currentCopyId);
+
+                const copyHTML = `
+                    <div style="background: #f0f8ff; padding: 20px; border-radius: 12px; margin: 15px 0; border-left: 4px solid #0066cc;">
+                        <h4>🔄 Angepasster Copy:</h4>
+                        <div style="background: white; padding: 15px; border-radius: 8px; margin: 10px 0; border-left: 4px solid #0066cc;">
+                            ${adaptedCopy.replace(/\n/g, '<br>')}
+                        </div>
+                        <button class="copy-btn" onclick="copyToClipboard('${adaptedCopy.replace(/'/g, "\\'")}')">
+                            📋 Copy kopieren
+                        </button>
+                    </div>
+                    ${generateEvaluationHTML(evaluation, evaluation.totalScore)}
+                    ${feedbackHtml}
+                `;
+
+                addMessage(copyHTML);
+                lastGeneratedCopy = adaptedCopy;
+
+                setTimeout(() => {
+                    const feedbackSection = document.getElementById(`feedback-${currentCopyId}`);
+                    if (feedbackSection) {
+                        feedbackSection.setAttribute('data-copy-text', adaptedCopy);
+                        feedbackSection.setAttribute('data-params', JSON.stringify(lastParams));
+                    }
+                }, 100);
+
+            }, 1500);
+        }
+
+        // Copy kopieren
+        function copyToClipboard(text) {
+            // Entferne HTML-Tags für die Zwischenablage
+            const cleanText = text.replace(/<[^>]*>/g, '');
+            navigator.clipboard.writeText(cleanText).then(() => {
+                // Feedback optisch
+            }).catch(() => {
+                alert('Fehler beim Kopieren');
+            });
+        }
+
+        // Enter-Taste im Chat
+        document.addEventListener('DOMContentLoaded', function() {
+            loadFeedbackData();
+            
+            const chatInput = document.getElementById('chatMessage');
+            if (chatInput) {
+                chatInput.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                        e.preventDefault();
+                        sendChatMessage();
+                    }
+                });
+            }
+
+            // Willkommensnachricht
+            setTimeout(() => {
+                addMessage("Willkommen bei Wedding Website Genius mit intelligentem Feedback-System!<br><br>🎯 <strong>Demo-Modus:</strong><br>• Funktionale Demonstration ohne API<br>• Bewerten Sie generierten Demo-Copy<br>• Chat-basierte Anpassungen möglich<br>• 20 verschiedene Verwendungszwecke<br><br>Basiert auf dem bewährten 10-Punkte-Regelwerk für Hochzeitsdienstleister.<br><br>Füllen Sie die Felder aus und starten Sie die Demo-Generierung.");
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
