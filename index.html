@@ -115,6 +115,11 @@
             cursor: not-allowed;
         }
 
+        .loading {
+            color: #666;
+            font-style: italic;
+        }
+
         .feedback-stats {
             background: #f8f9fa;
             padding: 15px;
@@ -393,41 +398,7 @@
             <div class="input-group">
                 <label>Verwendungszweck</label>
                 <select id="purpose">
-                    <option value="">Bitte wählen Sie einen Verwendungszweck...</option>
-                    <optgroup label="🏠 1. Startseite / Hero-Bereich">
-                        <option value="headline|5-10|Exklusive Hochzeits­planung für Süd­deutschland">Haupt-Headline (Positionierung in einem Satz) - 5–10 Wörter</option>
-                        <option value="subheadline|10-20|sowie an ausgewählten Destinationen wie Italien, Österreich & der Schweiz">Subheadline (Unterstützende Aussage / Nutzenversprechen) - 10–20 Wörter</option>
-                        <option value="bulletpoints|je 5-12|Premium-Preise ohne Diskussion + Systematisch planbare Anfragen + Sofort-Buchungen statt Vergleiche">3 Bullet Points (USP / Positionierung) - je 5–12 Wörter</option>
-                    </optgroup>
-                    <optgroup label="👤 2. Über mich / Über uns">
-                        <option value="why|50-80">Einleitungstext „Warum du das machst, was du machst" - 50–80 Wörter</option>
-                        <option value="story|150-250">Persönliche Geschichte / Werdegang - 150–250 Wörter</option>
-                        <option value="values|50-100">Werte & Philosophie - 50–100 Wörter</option>
-                        <option value="team|je 30-50">Teamvorstellung (Kurztexte zu Teammitgliedern) - je 30–50 Wörter</option>
-                    </optgroup>
-                    <optgroup label="⚡ 3. Leistungen / Angebote">
-                        <option value="services_intro|40-70">Einleitungstext zu den Leistungsboxen - 40–70 Wörter</option>
-                        <option value="service_box|20-40">Einzelne Leistungsbox (Titel + Kurzbeschreibung) - 20–40 Wörter</option>
-                        <option value="service_detail|200-400">Ausführliche Leistungsbeschreibung (Detailseite) - 200–400 Wörter</option>
-                        <option value="pas|100-200">PAS (Problem / Agitation / Solution) zu einer konkreten Leistung - 100–200 Wörter</option>
-                        <option value="package|50-120">Paketbeschreibung (Leistungspakete / Preisstruktur) - 50–120 Wörter</option>
-                    </optgroup>
-                    <optgroup label="📸 4. Portfolio / Referenzen">
-                        <option value="portfolio_intro|40-80">Einleitungstext Portfolio - 40–80 Wörter</option>
-                        <option value="portfolio_project|80-150">Beschreibung eines Portfolio-Projekts (Shooting oder Wedding) - 80–150 Wörter</option>
-                    </optgroup>
-                    <optgroup label="📞 6. Kontakt">
-                        <option value="contact_intro|20-40">Einleitungstext „So kannst du mich erreichen" - 20–40 Wörter</option>
-                        <option value="contact_cta|5-12">Kontakt-Call-to-Action (z. B. „Jetzt Termin vereinbaren") - 5–12 Wörter</option>
-                        <option value="contact_process|50-100">Wie geht es nach einer Anfrage weiter? - 50–100 Wörter</option>
-                    </optgroup>
-                    <optgroup label="🔍 7. SEO-Elemente">
-                        <option value="meta_title|max 60 Zeichen">Meta-Titel (SEO Title) - max. 60 Zeichen</option>
-                        <option value="meta_description|max 160 Zeichen">Meta-Beschreibung - max. 160 Zeichen</option>
-                    </optgroup>
-                    <optgroup label="❓ 8. Sonstige Inhaltsbereiche">
-                        <option value="faq|30-80 pro Antwort">FAQ-Fragen & Antworten - 30–80 pro Antwort</option>
-                    </optgroup>
+                    <option value="">Lade Verwendungszwecke...</option>
                 </select>
                 <small>Die Textlänge wird automatisch an den gewählten Verwendungszweck angepasst.</small>
             </div>
@@ -454,8 +425,8 @@
 
             <div class="input-group">
                 <label>Tonalität</label>
-                <select id="tone" disabled style="background: #f5f5f5; color: #666;">
-                    <option value="hardcore">Christians Hardcore Realtalk Style</option>
+                <select id="tone">
+                    <option value="christiansHRS">ChristiansHRS 2.0</option>
                 </select>
             </div>
 
@@ -533,6 +504,7 @@
             feedbacks: [],
             stats: { total: 0, positive: 0, negative: 0 }
         };
+        let csvData = [];
 
         // Copywriting-Regeln für Evaluation
         const copywritingRules = {
@@ -548,13 +520,147 @@
             10: { name: "Stilmittel", weight: 0.05 }
         };
 
-        // Feedback laden - ohne localStorage
+        // CSV-Daten laden
+        async function loadCSVData() {
+            try {
+                const response = await fetch('./data/requirements.csv');
+                if (!response.ok) {
+                    throw new Error('CSV konnte nicht geladen werden');
+                }
+                const csvText = await response.text();
+                
+                // Parse CSV manually - simple implementation
+                const lines = csvText.split('\n');
+                const headers = lines[0].split(',');
+                const data = [];
+                
+                for (let i = 1; i < lines.length; i++) {
+                    if (lines[i].trim()) {
+                        const values = parseCSVLine(lines[i]);
+                        if (values.length >= 4) {
+                            data.push({
+                                sektion: values[0],
+                                verwendungszweck: values[1],
+                                woerter: values[2],
+                                beispiel: values[3]
+                            });
+                        }
+                    }
+                }
+                
+                csvData = data;
+                populateDropdown();
+            } catch (error) {
+                console.error('Fehler beim Laden der CSV:', error);
+                // Fallback zu Demo-Daten
+                loadFallbackData();
+            }
+        }
+
+        // CSV-Zeile parsen (einfache Implementierung)
+        function parseCSVLine(line) {
+            const result = [];
+            let current = '';
+            let inQuotes = false;
+            
+            for (let i = 0; i < line.length; i++) {
+                const char = line[i];
+                
+                if (char === '"') {
+                    inQuotes = !inQuotes;
+                } else if (char === ',' && !inQuotes) {
+                    result.push(current.trim());
+                    current = '';
+                } else {
+                    current += char;
+                }
+            }
+            
+            result.push(current.trim());
+            return result;
+        }
+
+        // Fallback Demo-Daten
+        function loadFallbackData() {
+            csvData = [
+                {
+                    sektion: "1. Startseite / Hero-Bereich",
+                    verwendungszweck: "Haupt-Headline (Positionierung in einem Satz)",
+                    woerter: "5–10",
+                    beispiel: "Exklusive Hochzeitsplanung für Süddeutschland"
+                },
+                {
+                    sektion: "1. Startseite / Hero-Bereich", 
+                    verwendungszweck: "Subheadline (Unterstützende Aussage / Nutzenversprechen)",
+                    woerter: "10–20",
+                    beispiel: "sowie an ausgewählten Destinationen wie Italien, Österreich & der Schweiz"
+                },
+                {
+                    sektion: "2. Über mich / Über uns",
+                    verwendungszweck: "Persönliche Geschichte / Werdegang", 
+                    woerter: "150–250",
+                    beispiel: ""
+                },
+                {
+                    sektion: "3. Leistungen / Angebote",
+                    verwendungszweck: "Einzelne Leistungsbox (Titel + Kurzbeschreibung)",
+                    woerter: "20–40", 
+                    beispiel: ""
+                }
+            ];
+            populateDropdown();
+        }
+
+        // Dropdown füllen
+        function populateDropdown() {
+            const purposeSelect = document.getElementById('purpose');
+            purposeSelect.innerHTML = '<option value="">Bitte wählen Sie einen Verwendungszweck...</option>';
+            
+            let currentSection = '';
+            
+            csvData.forEach((item, index) => {
+                if (item.sektion !== currentSection) {
+                    if (currentSection !== '') {
+                        purposeSelect.appendChild(document.createElement('option')).disabled = true;
+                    }
+                    
+                    const optgroup = document.createElement('optgroup');
+                    optgroup.label = getEmojiForSection(item.sektion) + ' ' + item.sektion;
+                    purposeSelect.appendChild(optgroup);
+                    currentSection = item.sektion;
+                }
+                
+                const option = document.createElement('option');
+                option.value = `${item.verwendungszweck}|${item.woerter}|${item.beispiel}`;
+                option.textContent = `${item.verwendungszweck} - ${item.woerter} Wörter`;
+                
+                const lastOptgroup = purposeSelect.querySelector('optgroup:last-child');
+                if (lastOptgroup) {
+                    lastOptgroup.appendChild(option);
+                } else {
+                    purposeSelect.appendChild(option);
+                }
+            });
+        }
+
+        // Emoji für Sektion
+        function getEmojiForSection(section) {
+            if (section.includes('Startseite')) return '🏠';
+            if (section.includes('Über mich')) return '👤';
+            if (section.includes('Leistungen')) return '⚡';
+            if (section.includes('Portfolio')) return '📸';
+            if (section.includes('Kontakt')) return '📞';
+            if (section.includes('SEO')) return '🔍';
+            if (section.includes('Sonstige')) return '❓';
+            return '📝';
+        }
+
+        // Feedback laden - Session only
         function loadFeedbackData() {
-            // Initialisiert mit Standardwerten
             updateStatsDisplay();
         }
 
-        // Feedback speichern - Daten bleiben nur in Session
+        // Feedback speichern - Session only  
         function saveFeedbackData() {
             updateStatsDisplay();
         }
@@ -586,11 +692,11 @@
 9. Call to Action: Leite zur Handlung
 10. Stilmittel: Nutze alle 40 Wörter mindestens ein rhetorisches Stilmittel
 
-CHRISTIANS HARDCORE REALTALK STYLE - WICHTIGE REGELN:
+CHRISTIANSHRS 2.0 STYLE - WICHTIGE REGELN:
 
 POSITIV-DIREKT FORMULIEREN:
 ✅ "Ihr wisst genau, was ihr wollt"
-✅ "Eure Vision verdient Realität"
+✅ "Eure Vision verdient Realität"  
 ✅ "Ihr habt klare Vorstellungen"
 ✅ "Qualität ist euch wichtig"
 
@@ -606,7 +712,7 @@ PROBLEME BENENNEN - ABER RICHTIG:
 ✅ "Nie wieder schlaflose Nächte wegen Details"
 ✅ "Weg mit der Überforderung"
 
-HARDCORE BEDEUTET:
+CHRISTIANSHRS 2.0 BEDEUTET:
 - Direkte, ehrliche Kommunikation
 - Konkrete Fakten statt Marketing-Floskeln
 - "Real Talk" - aber immer AUFBAUEND
@@ -625,18 +731,14 @@ FORMATIERUNG:
             // Verwendungszweck hinzufügen
             if (params.purpose && params.purpose.trim() !== '') {
                 const purposeParts = params.purpose.split('|');
+                const verwendungszweck = purposeParts[0] || '';
                 const wordCount = purposeParts[1] || '';
                 const example = purposeParts[2] || '';
-                
-                const purposeSelect = document.getElementById('purpose');
-                const selectedText = purposeSelect && purposeSelect.selectedOptions[0] ? 
-                    purposeSelect.selectedOptions[0].textContent : 
-                    'Verwendungszweck ausgewählt';
 
                 prompt += `
 
 VERWENDUNGSZWECK & TEXTLÄNGE:
-- Zweck: ${selectedText}
+- Zweck: ${verwendungszweck}
 - Empfohlene Wortanzahl: ${wordCount} Wörter
 ${example ? `- Beispiel-Orientierung: "${example}"` : ''}
 - WICHTIG: Halte dich an diese Wortanzahl-Vorgabe!`;
@@ -649,7 +751,7 @@ Gewerk: ${params.service || 'Nicht angegeben'}
 ${params.target ? `Zielgruppe: ${params.target}` : ''}
 ${params.usp ? `USP: ${params.usp}` : ''}
 
-Schreibe den Text nach diesem Regelwerk in Christians Hardcore Realtalk Style.`;
+Schreibe den Text nach diesem Regelwerk in ChristiansHRS 2.0 Style.`;
 
             return prompt;
         }
@@ -787,7 +889,7 @@ Schreibe den Text nach diesem Regelwerk in Christians Hardcore Realtalk Style.`;
             `;
         }
 
-        // Copy generieren - Demo-Modus ohne API
+        // Copy generieren - Demo-Modus
         async function generateCopy() {
             const params = {
                 prompt: document.getElementById('prompt').value,
@@ -804,13 +906,17 @@ Schreibe den Text nach diesem Regelwerk in Christians Hardcore Realtalk Style.`;
             }
 
             // User-Nachricht hinzufügen
+            const purposeText = params.purpose ? 
+                document.getElementById('purpose').selectedOptions[0].textContent : 
+                'Nicht ausgewählt';
+
             addMessage(`Neuer Copy angefordert:<br>
                 <strong>Prompt:</strong> ${params.prompt}<br>
                 <strong>Gewerk:</strong> ${params.service}<br>
                 ${params.target ? `<strong>Zielgruppe:</strong> ${params.target}<br>` : ''}
                 ${params.usp ? `<strong>USP:</strong> ${params.usp}<br>` : ''}
-                ${params.purpose ? `<strong>Verwendungszweck:</strong> ${document.getElementById('purpose').selectedOptions[0].textContent}<br>` : ''}
-                <strong>Tonalität:</strong> ${params.tone}`, true);
+                <strong>Verwendungszweck:</strong> ${purposeText}<br>
+                <strong>Tonalität:</strong> ChristiansHRS 2.0`, true);
 
             showTyping();
             
@@ -857,7 +963,7 @@ Ihr investiert in euren wichtigsten Tag - wir sorgen dafür, dass jeder Euro ric
 
                 const copyHTML = `
                     <div style="background: #f8f9fa; padding: 20px; border-radius: 12px; margin: 15px 0;">
-                        <h4>🎯 Generierter Copy (Demo-Modus):</h4>
+                        <h4>🎯 Generierter Copy (ChristiansHRS 2.0):</h4>
                         <div style="background: white; padding: 15px; border-radius: 8px; margin: 10px 0; border-left: 4px solid #000000;">
                             ${randomCopy.replace(/\n/g, '<br>')}
                         </div>
@@ -932,7 +1038,7 @@ Lasst uns sprechen.`
 
                 const copyHTML = `
                     <div style="background: #f0f8ff; padding: 20px; border-radius: 12px; margin: 15px 0; border-left: 4px solid #0066cc;">
-                        <h4>🔄 Angepasster Copy:</h4>
+                        <h4>🔄 Angepasster Copy (ChristiansHRS 2.0):</h4>
                         <div style="background: white; padding: 15px; border-radius: 8px; margin: 10px 0; border-left: 4px solid #0066cc;">
                             ${adaptedCopy.replace(/\n/g, '<br>')}
                         </div>
@@ -972,6 +1078,7 @@ Lasst uns sprechen.`
         // Enter-Taste im Chat
         document.addEventListener('DOMContentLoaded', function() {
             loadFeedbackData();
+            loadCSVData();
             
             const chatInput = document.getElementById('chatMessage');
             if (chatInput) {
@@ -985,7 +1092,7 @@ Lasst uns sprechen.`
 
             // Willkommensnachricht
             setTimeout(() => {
-                addMessage("Willkommen bei Wedding Website Genius mit intelligentem Feedback-System!<br><br>🎯 <strong>Demo-Modus:</strong><br>• Funktionale Demonstration ohne API<br>• Bewerten Sie generierten Demo-Copy<br>• Chat-basierte Anpassungen möglich<br>• 20 verschiedene Verwendungszwecke<br><br>Basiert auf dem bewährten 10-Punkte-Regelwerk für Hochzeitsdienstleister.<br><br>Füllen Sie die Felder aus und starten Sie die Demo-Generierung.");
+                addMessage("Willkommen bei Wedding Website Genius mit ChristiansHRS 2.0!<br><br>🎯 <strong>Features:</strong><br>• Dynamische CSV-basierte Anforderungen<br>• ChristiansHRS 2.0 Tonalität<br>• Intelligentes Feedback-System<br>• Chat-basierte Anpassungen<br>• Vercel/GitHub Ready<br><br>Basiert auf dem bewährten 10-Punkte-Regelwerk für Hochzeitsdienstleister.<br><br>Wählen Sie einen Verwendungszweck und starten Sie die Generierung.");
             }, 1000);
         });
     </script>
