@@ -13,50 +13,52 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #ffffff;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 25%, #0f3460 50%, #533483 75%, #7209b7 100%);
             min-height: 100vh;
             padding: 20px;
-            color: #000000;
+            color: #ffffff;
         }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            background: white;
-            border: 1px solid #e0e0e0;
-            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
             overflow: hidden;
             display: flex;
             height: 90vh;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
         }
 
         .sidebar {
             width: 400px;
-            background: #fafafa;
-            padding: 30px 25px;
-            border-right: 1px solid #e0e0e0;
+            background: rgba(248, 249, 250, 0.98);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            border-right: 1px solid rgba(0, 0, 0, 0.1);
             overflow-y: auto;
         }
 
         .logo {
-            font-size: 24px;
+            font-size: 18px;
             font-weight: 700;
-            color: #000000;
-            margin-bottom: 30px;
+            color: #1a1a2e;
+            margin-bottom: 20px;
             text-align: center;
-            padding-bottom: 20px;
-            border-bottom: 1px solid #e0e0e0;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
         }
 
         .input-group {
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
 
         .input-group label {
             display: block;
             font-weight: 500;
-            color: #000000;
+            color: #1a1a2e;
             margin-bottom: 6px;
             font-size: 14px;
         }
@@ -66,19 +68,22 @@
         .input-group textarea {
             width: 100%;
             padding: 10px 12px;
-            border: 1px solid #d0d0d0;
-            border-radius: 4px;
+            border: 1px solid rgba(0, 0, 0, 0.15);
+            border-radius: 8px;
             font-size: 14px;
-            transition: border-color 0.2s;
-            background: white;
-            color: #000000;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            transition: all 0.2s ease;
+            background: rgba(255, 255, 255, 0.9);
+            color: #1a1a2e;
         }
 
         .input-group select:focus,
         .input-group input:focus,
         .input-group textarea:focus {
             outline: none;
-            border-color: #000000;
+            border-color: #7209b7;
+            box-shadow: 0 0 0 3px rgba(114, 9, 183, 0.1);
+            background: white;
         }
 
         .input-group textarea {
@@ -96,49 +101,25 @@
         .generate-btn {
             width: 100%;
             padding: 12px;
-            background: #000000;
+            background: linear-gradient(135deg, #7209b7, #533483);
             color: white;
             border: none;
-            border-radius: 4px;
+            border-radius: 8px;
             font-size: 15px;
             font-weight: 500;
             cursor: pointer;
-            transition: background-color 0.2s;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 12px rgba(114, 9, 183, 0.3);
         }
 
         .generate-btn:hover {
-            background: #333333;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 16px rgba(114, 9, 183, 0.4);
         }
 
         .generate-btn:disabled {
             opacity: 0.5;
             cursor: not-allowed;
-        }
-
-        .loading {
-            color: #666;
-            font-style: italic;
-        }
-
-        .feedback-stats {
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 6px;
-            margin-top: 20px;
-            border: 1px solid #e0e0e0;
-        }
-
-        .feedback-stats h4 {
-            margin-bottom: 10px;
-            font-size: 13px;
-            color: #333;
-        }
-
-        .stat-item {
-            display: flex;
-            justify-content: space-between;
-            font-size: 12px;
-            margin-bottom: 5px;
         }
 
         .chat-area {
@@ -149,7 +130,7 @@
         }
 
         .chat-header {
-            background: #000000;
+            background: linear-gradient(135deg, #1a1a2e, #533483);
             color: white;
             padding: 20px 30px;
             font-weight: 500;
@@ -160,7 +141,7 @@
             flex: 1;
             padding: 30px;
             overflow-y: auto;
-            background: white;
+            background: rgba(255, 255, 255, 0.95);
         }
 
         .message {
@@ -191,14 +172,14 @@
         }
 
         .message.user .message-content {
-            background: #000000;
+            background: linear-gradient(135deg, #7209b7, #533483);
             color: white;
         }
 
         .message.bot .message-content {
-            background: #f5f5f5;
-            color: #000000;
-            border: 1px solid #e0e0e0;
+            background: rgba(248, 249, 250, 0.95);
+            color: #1a1a2e;
+            border: 1px solid rgba(0, 0, 0, 0.1);
         }
 
         .typing {
@@ -230,48 +211,6 @@
         @keyframes typing {
             0%, 80%, 100% { transform: scale(0.8); opacity: 0.3; }
             40% { transform: scale(1); opacity: 1; }
-        }
-
-        .evaluation {
-            background: #f8f8f8;
-            border-left: 3px solid #000000;
-            padding: 15px;
-            margin: 15px 0;
-            border-radius: 0 4px 4px 0;
-        }
-
-        .rule-score {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin: 6px 0;
-            font-size: 13px;
-        }
-
-        .score-badge {
-            padding: 3px 8px;
-            border-radius: 3px;
-            font-size: 11px;
-            font-weight: 500;
-        }
-
-        .score-ok { background: #000000; color: white; }
-        .score-warn { background: #cccccc; color: #333333; }
-        .score-error { background: #f0f0f0; color: #666666; border: 1px solid #ddd; }
-
-        .copy-btn {
-            background: #000000;
-            color: white;
-            border: none;
-            padding: 6px 12px;
-            border-radius: 3px;
-            cursor: pointer;
-            font-size: 11px;
-            margin-top: 8px;
-        }
-
-        .copy-btn:hover {
-            background: #333333;
         }
 
         .feedback-section {
@@ -361,13 +300,13 @@
 
         .welcome {
             text-align: center;
-            color: #666666;
+            color: #555;
             font-size: 15px;
             margin-top: 80px;
         }
 
         .welcome h3 {
-            color: #000000;
+            color: #1a1a2e;
             font-weight: 600;
             margin-bottom: 15px;
         }
@@ -393,7 +332,7 @@
 <body>
     <div class="container">
         <div class="sidebar">
-            <div class="logo">Wedding Website Genius</div>
+            <div class="logo">Wedding Website Genius - Intelligenter Copywriter für Hochzeitsdienstleister</div>
             
             <div class="input-group">
                 <label>Verwendungszweck</label>
@@ -409,7 +348,7 @@
             </div>
 
             <div class="input-group">
-                <label>Gewerk - Welche Dienstleistung bieten Sie an?</label>
+                <label>Gewerk - Welche Dienstleistung bietest du an?</label>
                 <input type="text" id="service" placeholder="z.B. Hochzeitsplanung, Fotografie, Catering...">
             </div>
 
@@ -419,15 +358,8 @@
             </div>
 
             <div class="input-group">
-                <label>USP - Was macht Sie einzigartig? (optional)</label>
+                <label>USP - Was macht dich einzigartig? (optional)</label>
                 <textarea id="usp" placeholder="z.B. Nur 10 Hochzeiten pro Jahr, spezialisiert auf Vintage-Stil..." rows="3"></textarea>
-            </div>
-
-            <div class="input-group">
-                <label>Tonalität</label>
-                <select id="tone">
-                    <option value="christiansHRS">ChristiansHRS 2.0</option>
-                </select>
             </div>
 
             <button class="generate-btn" onclick="generateCopy()">
@@ -437,13 +369,13 @@
 
         <div class="chat-area">
             <div class="chat-header">
-                Intelligenter Copywriter für Hochzeitsdienstleister
+                Copy-Generierung & Chat
             </div>
             <div class="messages" id="messages">
                 <div class="welcome">
-                    <h3>Wedding Website Genius</h3>
+                    <h3>Willkommen!</h3>
                     <p>Professionelle Copywriting-KI speziell für Hochzeitsdienstleister.<br>
-                    Basiert auf bewährtem 10-Punkte-Regelwerk mit intelligentem Feedback-System.</p>
+                    Basiert auf bewährtem 10-Punkte-Regelwerk.</p>
                 </div>
             </div>
             
@@ -468,7 +400,7 @@
                         </button>
                     </div>
                     <div style="font-size: 11px; color: #666; margin-top: 5px;">
-                        💡 Tipp: Schreiben Sie direkt Ihre Änderungswünsche für den letzten Copy
+                        💡 Tipp: Schreibe direkt deine Änderungswünsche für den letzten Copy
                     </div>
                 </div>
             </div>
@@ -486,20 +418,6 @@
         };
         let csvData = [];
 
-        // Copywriting-Regeln für Evaluation
-        const copywritingRules = {
-            1: { name: "Zielgruppenfokus", weight: 0.15 },
-            2: { name: "Klarer USP", weight: 0.15 },
-            3: { name: "Emotion ohne Kitsch", weight: 0.1 },
-            4: { name: "Struktur & Leserführung", weight: 0.15 },
-            5: { name: "Verständliche Sprache", weight: 0.1 },
-            6: { name: "Problemorientierung", weight: 0.1 },
-            7: { name: "Prägnanz", weight: 0.05 },
-            8: { name: "Visuelle Bildsprache", weight: 0.05 },
-            9: { name: "Call to Action", weight: 0.1 },
-            10: { name: "Stilmittel", weight: 0.05 }
-        };
-
         // JSON-Daten laden
         async function loadCSVData() {
             try {
@@ -513,7 +431,7 @@
                 populateDropdown();
             } catch (error) {
                 console.error('Fehler beim Laden der JSON:', error);
-                showError('Anforderungen konnten nicht geladen werden. Bitte überprüfen Sie die data/requirements.json Datei.');
+                showError('Anforderungen konnten nicht geladen werden. Bitte überprüfe die data/requirements.json Datei.');
                 document.getElementById('purpose').innerHTML = '<option value="">Daten nicht verfügbar</option>';
             }
         }
@@ -526,15 +444,11 @@
         // Dropdown füllen
         function populateDropdown() {
             const purposeSelect = document.getElementById('purpose');
-            purposeSelect.innerHTML = '<option value="">Bitte wählen Sie einen Verwendungszweck...</option>';
-            
-            console.log('CSV Data:', csvData); // Debug-Ausgabe
+            purposeSelect.innerHTML = '<option value="">Bitte wähle einen Verwendungszweck...</option>';
             
             let currentSection = '';
             
             csvData.forEach((item, index) => {
-                console.log(`Item ${index}:`, item); // Debug einzelne Items
-                
                 if (item.sektion !== currentSection) {
                     if (currentSection !== '') {
                         // Spacer zwischen Gruppen
@@ -561,8 +475,6 @@
                     purposeSelect.appendChild(option);
                 }
             });
-            
-            console.log('Dropdown populated with', csvData.length, 'items'); // Debug
         }
 
         // Emoji für Sektion
@@ -585,85 +497,6 @@
         // Feedback speichern - Session only  
         function saveFeedbackData() {
             // Funktion leer - keine Feedback-Statistiken mehr
-        }
-
-        // System Prompt generieren
-        function createSystemPrompt(params) {
-            let prompt = `Du bist ein professioneller Copywriter für die Hochzeitsbranche, der nach einem strukturierten 10-Punkte-Regelwerk arbeitet:
-
-1. Zielgruppenfokus: Sprich die definierte Zielgruppe direkt an
-2. Klarer USP: Hebe das Alleinstellungsmerkmal hervor  
-3. Emotion ohne Kitsch: Verwende echte, greifbare Bilder statt Phrasen
-4. Struktur & Leserführung: Hook → Problem → Lösung → CTA
-5. Verständliche Sprache: Kurze, präzise Sätze
-6. Problemorientierung: Benenne konkrete Probleme der Zielgruppe
-7. Prägnanz: Jeder Satz muss eine Funktion erfüllen
-8. Visuelle Bildsprache: Erzeuge "Kino im Kopf"
-9. Call to Action: Leite zur Handlung
-10. Stilmittel: Nutze alle 40 Wörter mindestens ein rhetorisches Stilmittel
-
-CHRISTIANSHRS 2.0 STYLE - WICHTIGE REGELN:
-
-POSITIV-DIREKT FORMULIEREN:
-✅ "Ihr wisst genau, was ihr wollt"
-✅ "Eure Vision verdient Realität"  
-✅ "Ihr habt klare Vorstellungen"
-✅ "Qualität ist euch wichtig"
-
-NIEMALS KONKURRENZ/KOLLEGEN SCHLECHTMACHEN:
-❌ "Während andere euch mit Standard-Paketen abspeisen"
-❌ "Andere Anbieter versagen bei..."
-❌ "Im Gegensatz zu anderen..."
-❌ "Wo andere scheitern..."
-
-PROBLEME BENENNEN - ABER RICHTIG:
-✅ "Keine endlosen Telefonate"
-✅ "Schluss mit Planungsstress"
-✅ "Nie wieder schlaflose Nächte wegen Details"
-✅ "Weg mit der Überforderung"
-
-CHRISTIANSHRS 2.0 BEDEUTET:
-- Direkte, ehrliche Kommunikation
-- Konkrete Fakten statt Marketing-Floskeln
-- "Real Talk" - aber immer AUFBAUEND
-- Probleme lösen, nicht Schuldige suchen
-- Fokus auf POSITIVE Abgrenzung durch eigene Stärken
-
-STILMITTEL-MARKIERUNG:
-- Wenn du ein rhetorisches Stilmittel verwendest, markiere es mit <span style="border-bottom: 2px solid lightblue;">Text mit Stilmittel</span>
-
-FORMATIERUNG:
-- Verwende die Stilmittel-Markierung wie oben beschrieben
-- Ansonsten keine weiteren Formatierungszeichen
-- Reiner, sauberer Text
-- Keine Markdown-Syntax`;
-
-            // Verwendungszweck hinzufügen
-            if (params.purpose && params.purpose.trim() !== '') {
-                const purposeParts = params.purpose.split('|');
-                const verwendungszweck = purposeParts[0] || '';
-                const wordCount = purposeParts[1] || '';
-                const example = purposeParts[2] || '';
-
-                prompt += `
-
-VERWENDUNGSZWECK & TEXTLÄNGE:
-- Zweck: ${verwendungszweck}
-- Empfohlene Wortanzahl: ${wordCount} Wörter
-${example ? `- Beispiel-Orientierung: "${example}"` : ''}
-- WICHTIG: Halte dich an diese Wortanzahl-Vorgabe!`;
-            }
-
-            // Parameter hinzufügen
-            prompt += `
-
-Gewerk: ${params.service || 'Nicht angegeben'}
-${params.target ? `Zielgruppe: ${params.target}` : ''}
-${params.usp ? `USP: ${params.usp}` : ''}
-
-Schreibe den Text nach diesem Regelwerk in ChristiansHRS 2.0 Style.`;
-
-            return prompt;
         }
 
         // Nachricht hinzufügen
@@ -690,55 +523,11 @@ Schreibe den Text nach diesem Regelwerk in ChristiansHRS 2.0 Style.`;
             document.getElementById('typing').style.display = 'none';
         }
 
-        // Text evaluieren
-        function evaluateText(text, params) {
-            const evaluation = {};
-            let totalScore = 0;
-
-            // Vereinfachte Bewertung
-            evaluation[1] = params.target && text.toLowerCase().includes(params.target.toLowerCase().split(' ')[0]) ? 'ok' : 'warn';
-            evaluation[2] = params.usp && (text.includes('anders') || text.includes('besonders') || text.includes('einzigartig')) ? 'ok' : 'warn';
-            evaluation[3] = ['träum', 'gefühl', 'herz', 'moment', 'erinnerung'].some(word => text.toLowerCase().includes(word)) ? 'ok' : 'warn';
-            evaluation[4] = (text.includes('?') || text.includes('!')) && (text.toLowerCase().includes('schreib') || text.toLowerCase().includes('kontakt')) ? 'ok' : 'warn';
-            evaluation[5] = text.split('.').length > 2 ? 'ok' : 'warn';
-            evaluation[6] = ['problem', 'stress', 'chaos', 'schwierig'].some(word => text.toLowerCase().includes(word)) ? 'ok' : 'warn';
-            evaluation[7] = text.length > 100 && text.length < 500 ? 'ok' : 'warn';
-            evaluation[8] = ['stellt euch vor', 'bild', 'sehen', 'vorstellen'].some(phrase => text.toLowerCase().includes(phrase)) ? 'ok' : 'warn';
-            evaluation[9] = text.toLowerCase().includes('schreib') || text.toLowerCase().includes('kontakt') ? 'ok' : 'error';
-            evaluation[10] = text.includes('?') || text.includes('!') ? 'ok' : 'warn';
-
-            // Score berechnen
-            Object.keys(evaluation).forEach(rule => {
-                const score = evaluation[rule] === 'ok' ? 1 : (evaluation[rule] === 'warn' ? 0.5 : 0);
-                totalScore += score * copywritingRules[rule].weight;
-            });
-
-            return { evaluation, totalScore: Math.round(totalScore * 100) };
-        }
-
-        // Evaluation HTML
-        function generateEvaluationHTML(evaluation, totalScore) {
-            let html = `<div class="evaluation">
-                <strong>📊 Regelwerk-Bewertung: ${totalScore}%</strong><br><br>`;
-            
-            Object.keys(evaluation.evaluation).forEach(rule => {
-                const score = evaluation.evaluation[rule];
-                const ruleName = copywritingRules[rule].name;
-                html += `<div class="rule-score">
-                    <span>Regel ${rule}: ${ruleName}</span>
-                    <span class="score-badge score-${score}">${score.toUpperCase()}</span>
-                </div>`;
-            });
-            
-            html += '</div>';
-            return html;
-        }
-
         // Feedback Section
         function createFeedbackSection(copyId) {
             return `
                 <div class="feedback-section" id="feedback-${copyId}">
-                    <div class="feedback-question">Wie zufrieden sind Sie mit diesem Copy?</div>
+                    <div class="feedback-question">Wie zufrieden bist du mit diesem Copy?</div>
                     <div class="feedback-buttons">
                         <button class="feedback-btn positive" onclick="selectRating(${copyId}, 5, this)">😍 Perfekt</button>
                         <button class="feedback-btn positive" onclick="selectRating(${copyId}, 4, this)">👍 Gut</button>
@@ -746,7 +535,7 @@ Schreibe den Text nach diesem Regelwerk in ChristiansHRS 2.0 Style.`;
                         <button class="feedback-btn negative" onclick="selectRating(${copyId}, 2, this)">👎 Schlecht</button>
                         <button class="feedback-btn negative" onclick="selectRating(${copyId}, 1, this)">😡 Schrott</button>
                     </div>
-                    <textarea class="feedback-comment" id="comment-${copyId}" placeholder="Optionaler Kommentar: Was gefällt Ihnen besonders gut oder was könnte verbessert werden?"></textarea>
+                    <textarea class="feedback-comment" id="comment-${copyId}" placeholder="Optionaler Kommentar: Was gefällt dir besonders gut oder was könnte verbessert werden?"></textarea>
                     <button class="feedback-submit" onclick="submitFeedback(${copyId})" id="submit-${copyId}" disabled>
                         Feedback absenden
                     </button>
@@ -770,7 +559,7 @@ Schreibe den Text nach diesem Regelwerk in ChristiansHRS 2.0 Style.`;
             const comment = document.getElementById(`comment-${copyId}`).value;
 
             if (!rating) {
-                alert('Bitte wählen Sie eine Bewertung aus!');
+                alert('Bitte wähle eine Bewertung aus!');
                 return;
             }
 
@@ -794,7 +583,7 @@ Schreibe den Text nach diesem Regelwerk in ChristiansHRS 2.0 Style.`;
             // UI aktualisieren
             section.innerHTML = `
                 <div class="feedback-submitted">
-                    ✅ Vielen Dank für Ihr Feedback! Dieses wird bei zukünftigen Generierungen berücksichtigt.
+                    ✅ Vielen Dank für dein Feedback! Dieses wird bei zukünftigen Generierungen berücksichtigt.
                 </div>
             `;
         }
@@ -806,12 +595,12 @@ Schreibe den Text nach diesem Regelwerk in ChristiansHRS 2.0 Style.`;
                 service: document.getElementById('service').value,
                 target: document.getElementById('target').value,
                 usp: document.getElementById('usp').value,
-                tone: document.getElementById('tone').value,
+                tone: 'christiansHRS',
                 purpose: document.getElementById('purpose').value
             };
 
             if (!params.prompt || !params.service) {
-                alert('Bitte füllen Sie mindestens den Prompt und das Gewerk aus!');
+                alert('Bitte fülle mindestens den Prompt und das Gewerk aus!');
                 return;
             }
 
@@ -857,8 +646,6 @@ Schreibe den Text nach diesem Regelwerk in ChristiansHRS 2.0 Style.`;
                 
                 currentCopyId = Date.now();
 
-                const feedbackHtml = createFeedbackSection(currentCopyId);
-
                 const copyHTML = `
                     <div style="background: #f8f9fa; padding: 20px; border-radius: 12px; margin: 15px 0;">
                         <h4>🎯 Generierter Copy (ChristiansHRS 2.0):</h4>
@@ -878,7 +665,7 @@ Schreibe den Text nach diesem Regelwerk in ChristiansHRS 2.0 Style.`;
             } catch (error) {
                 hideTyping();
                 console.error('Generierung fehlgeschlagen:', error);
-                addMessage(`❌ <strong>Fehler bei der Copy-Generierung:</strong> ${error.message}<br><br>Bitte überprüfen Sie Ihre Backend-API-Konfiguration.`);
+                addMessage(`❌ <strong>Fehler bei der Copy-Generierung:</strong> ${error.message}<br><br>Bitte überprüfe deine Backend-API-Konfiguration.`);
             } finally {
                 // Button wieder aktivieren
                 generateBtn.disabled = false;
@@ -892,12 +679,12 @@ Schreibe den Text nach diesem Regelwerk in ChristiansHRS 2.0 Style.`;
             const message = messageInput.value.trim();
             
             if (!message) {
-                alert('Bitte geben Sie eine Nachricht ein!');
+                alert('Bitte gib eine Nachricht ein!');
                 return;
             }
 
             if (!lastGeneratedCopy || !lastParams) {
-                alert('Bitte generieren Sie zuerst einen Copy!');
+                alert('Bitte generiere zuerst einen Copy!');
                 return;
             }
 
@@ -929,7 +716,6 @@ Schreibe den Text nach diesem Regelwerk in ChristiansHRS 2.0 Style.`;
                 hideTyping();
 
                 currentCopyId = Date.now();
-                const feedbackHtml = createFeedbackSection(currentCopyId);
 
                 const copyHTML = `
                     <div style="background: #f0f8ff; padding: 20px; border-radius: 12px; margin: 15px 0; border-left: 4px solid #0066cc;">
@@ -946,19 +732,8 @@ Schreibe den Text nach diesem Regelwerk in ChristiansHRS 2.0 Style.`;
             } catch (error) {
                 hideTyping();
                 console.error('Anpassung fehlgeschlagen:', error);
-                addMessage(`❌ <strong>Fehler bei der Copy-Anpassung:</strong> ${error.message}<br><br>Bitte überprüfen Sie Ihre Backend-API-Konfiguration.`);
+                addMessage(`❌ <strong>Fehler bei der Copy-Anpassung:</strong> ${error.message}<br><br>Bitte überprüfe deine Backend-API-Konfiguration.`);
             }
-        }
-
-        // Copy kopieren
-        function copyToClipboard(text) {
-            // Entferne HTML-Tags für die Zwischenablage
-            const cleanText = text.replace(/<[^>]*>/g, '');
-            navigator.clipboard.writeText(cleanText).then(() => {
-                // Feedback optisch
-            }).catch(() => {
-                alert('Fehler beim Kopieren');
-            });
         }
 
         // Enter-Taste im Chat
@@ -978,7 +753,7 @@ Schreibe den Text nach diesem Regelwerk in ChristiansHRS 2.0 Style.`;
 
             // Willkommensnachricht
             setTimeout(() => {
-                addMessage("Willkommen bei Wedding Website Genius mit ChristiansHRS 2.0!<br><br>🎯 <strong>Features:</strong><br>• Backend-API Integration<br>• Dynamische CSV-basierte Anforderungen<br>• ChristiansHRS 2.0 Tonalität<br>• Intelligentes Feedback-System<br>• Chat-basierte Anpassungen<br><br>Basiert auf dem bewährten 10-Punkte-Regelwerk für Hochzeitsdienstleister.<br><br>⚠️ <strong>Hinweis:</strong> Backend-API erforderlich. Stellen Sie sicher, dass die Endpoints '/api/generate-copy' und '/api/adapt-copy' konfiguriert sind.");
+                addMessage("Willkommen bei Wedding Website Genius mit ChristiansHRS 2.0!");
             }, 1000);
         });
     </script>
