@@ -433,26 +433,6 @@
             <button class="generate-btn" onclick="generateCopy()">
                 ✨ Copy generieren
             </button>
-
-            <div class="feedback-stats" id="feedbackStats">
-                <h4>📊 Feedback-Statistiken</h4>
-                <div class="stat-item">
-                    <span>Positive Bewertungen:</span>
-                    <span id="positiveCount">0</span>
-                </div>
-                <div class="stat-item">
-                    <span>Negative Bewertungen:</span>
-                    <span id="negativeCount">0</span>
-                </div>
-                <div class="stat-item">
-                    <span>Gesamt generiert:</span>
-                    <span id="totalCount">0</span>
-                </div>
-                <div class="stat-item">
-                    <span>Zufriedenheitsrate:</span>
-                    <span id="satisfactionRate">-</span>
-                </div>
-            </div>
         </div>
 
         <div class="chat-area">
@@ -535,14 +515,15 @@
                 const data = [];
                 
                 for (let i = 1; i < lines.length; i++) {
-                    if (lines[i].trim()) {
-                        const values = parseCSVLine(lines[i]);
-                        if (values.length >= 4) {
+                    const line = lines[i].trim();
+                    if (line && !line.startsWith(',')) { // Ignoriere leere Zeilen und Zeilen die mit Komma beginnen
+                        const values = parseCSVLine(line);
+                        if (values && values.length >= 3 && values[0] && values[1]) {
                             data.push({
-                                sektion: values[0],
-                                verwendungszweck: values[1],
-                                woerter: values[2],
-                                beispiel: values[3]
+                                sektion: values[0].trim(),
+                                verwendungszweck: values[1].trim(),
+                                woerter: values[2] ? values[2].trim() : '',
+                                beispiel: values[3] ? values[3].trim() : ''
                             });
                         }
                     }
@@ -557,7 +538,7 @@
             }
         }
 
-        // CSV-Zeile parsen (einfache Implementierung)
+        // CSV-Zeile parsen (robuste Implementierung)
         function parseCSVLine(line) {
             const result = [];
             let current = '';
@@ -567,17 +548,25 @@
                 const char = line[i];
                 
                 if (char === '"') {
-                    inQuotes = !inQuotes;
+                    if (inQuotes && line[i + 1] === '"') {
+                        // Escaped quote
+                        current += '"';
+                        i++; // Skip next quote
+                    } else {
+                        inQuotes = !inQuotes;
+                    }
                 } else if (char === ',' && !inQuotes) {
-                    result.push(current.trim());
+                    result.push(current.trim().replace(/^"|"$/g, ''));
                     current = '';
                 } else {
                     current += char;
                 }
             }
             
-            result.push(current.trim());
-            return result;
+            result.push(current.trim().replace(/^"|"$/g, ''));
+            
+            // Nur zurückgeben wenn mindestens 3 Spalten vorhanden
+            return result.length >= 3 ? result : null;
         }
 
         // Fehler anzeigen
@@ -631,24 +620,12 @@
 
         // Feedback laden - Session only
         function loadFeedbackData() {
-            updateStatsDisplay();
+            // Funktion leer - keine Feedback-Statistiken mehr
         }
 
         // Feedback speichern - Session only  
         function saveFeedbackData() {
-            updateStatsDisplay();
-        }
-
-        // Statistiken aktualisieren
-        function updateStatsDisplay() {
-            const satisfactionRate = feedbackData.stats.total > 0 
-                ? Math.round((feedbackData.stats.positive / feedbackData.stats.total) * 100) 
-                : 0;
-
-            document.getElementById('positiveCount').textContent = feedbackData.stats.positive;
-            document.getElementById('negativeCount').textContent = feedbackData.stats.negative;
-            document.getElementById('totalCount').textContent = feedbackData.stats.total;
-            document.getElementById('satisfactionRate').textContent = satisfactionRate + '%';
+            // Funktion leer - keine Feedback-Statistiken mehr
         }
 
         // System Prompt generieren
