@@ -930,12 +930,8 @@ Schreibe den Text nach diesem Regelwerk in ChristiansHRS 2.0 Style.`;
                         <div style="background: white; padding: 15px; border-radius: 8px; margin: 10px 0; border-left: 4px solid #000000;">
                             ${generatedCopy.replace(/\n/g, '<br>')}
                         </div>
-                        <button class="copy-btn" onclick="copyToClipboard('${generatedCopy.replace(/'/g, "\\'")}')">
-                            📋 Copy kopieren
-                        </button>
                     </div>
                     ${generateEvaluationHTML(evaluation, evaluation.totalScore)}
-                    ${feedbackHtml}
                 `;
 
                 addMessage(copyHTML);
@@ -944,15 +940,6 @@ Schreibe den Text nach diesem Regelwerk in ChristiansHRS 2.0 Style.`;
                 lastGeneratedCopy = generatedCopy;
                 lastParams = params;
                 document.getElementById('chatInput').style.display = 'block';
-
-                // Feedback-Section-Attribute setzen
-                setTimeout(() => {
-                    const feedbackSection = document.getElementById(`feedback-${currentCopyId}`);
-                    if (feedbackSection) {
-                        feedbackSection.setAttribute('data-copy-text', generatedCopy);
-                        feedbackSection.setAttribute('data-params', JSON.stringify(params));
-                    }
-                }, 100);
 
             } catch (error) {
                 hideTyping();
@@ -1017,24 +1004,12 @@ Schreibe den Text nach diesem Regelwerk in ChristiansHRS 2.0 Style.`;
                         <div style="background: white; padding: 15px; border-radius: 8px; margin: 10px 0; border-left: 4px solid #0066cc;">
                             ${adaptedCopy.replace(/\n/g, '<br>')}
                         </div>
-                        <button class="copy-btn" onclick="copyToClipboard('${adaptedCopy.replace(/'/g, "\\'")}')">
-                            📋 Copy kopieren
-                        </button>
                     </div>
                     ${generateEvaluationHTML(evaluation, evaluation.totalScore)}
-                    ${feedbackHtml}
                 `;
 
                 addMessage(copyHTML);
                 lastGeneratedCopy = adaptedCopy;
-
-                setTimeout(() => {
-                    const feedbackSection = document.getElementById(`feedback-${currentCopyId}`);
-                    if (feedbackSection) {
-                        feedbackSection.setAttribute('data-copy-text', adaptedCopy);
-                        feedbackSection.setAttribute('data-params', JSON.stringify(lastParams));
-                    }
-                }, 100);
 
             } catch (error) {
                 hideTyping();
