@@ -323,13 +323,13 @@
 
         .welcome {
             text-align: center;
-            color: #555;
+            color: rgba(255, 255, 255, 0.8);
             font-size: 15px;
             margin-top: 80px;
         }
 
         .welcome h3 {
-            color: #1a1a2e;
+            color: rgba(255, 255, 255, 0.95);
             font-weight: 600;
             margin-bottom: 15px;
         }
@@ -413,16 +413,16 @@
             </div>
 
             <div class="chat-input" id="chatInput" style="display: none;">
-                <div style="padding: 20px; border-top: 1px solid #e0e0e0; background: #f8f9fa;">
+                <div style="padding: 20px; background: rgba(26, 26, 46, 0.85); backdrop-filter: blur(15px); border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.1); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3); margin: 20px;">
                     <div style="display: flex; gap: 10px; align-items: flex-end;">
                         <textarea id="chatMessage" placeholder="z.B. 'Mach es kürzer', 'Mehr Emotion', 'Andere Tonalität'..." 
-                                style="flex: 1; padding: 10px; border: 1px solid #d0d0d0; border-radius: 4px; resize: none; min-height: 40px; max-height: 100px;"></textarea>
+                                style="flex: 1; padding: 12px; border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 8px; resize: none; min-height: 40px; max-height: 100px; background: rgba(0, 0, 0, 0.4); color: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;"></textarea>
                         <button onclick="sendChatMessage()" id="sendBtn" 
-                                style="padding: 10px 20px; background: #000000; color: white; border: none; border-radius: 4px; cursor: pointer; white-space: nowrap;">
+                                style="padding: 12px 20px; background: linear-gradient(135deg, #7209b7, #533483); color: white; border: none; border-radius: 8px; cursor: pointer; white-space: nowrap; font-weight: 500; box-shadow: 0 4px 12px rgba(114, 9, 183, 0.3);">
                             📤 Senden
                         </button>
                     </div>
-                    <div style="font-size: 11px; color: #666; margin-top: 5px;">
+                    <div style="font-size: 11px; color: rgba(255, 255, 255, 0.6); margin-top: 8px;">
                         💡 Tipp: Schreibe direkt deine Änderungswünsche für den letzten Copy
                     </div>
                 </div>
@@ -520,6 +520,83 @@
         // Feedback speichern - Session only  
         function saveFeedbackData() {
             // Funktion leer - keine Feedback-Statistiken mehr
+        }
+
+        // System Prompt generieren
+        function createSystemPrompt(params) {
+            let prompt = `Du bist ein professioneller Copywriter für die Hochzeitsbranche, der nach einem strukturierten 10-Punkte-Regelwerk arbeitet:
+
+1. Zielgruppenfokus: Sprich die definierte Zielgruppe direkt an
+2. Klarer USP: Hebe das Alleinstellungsmerkmal hervor  
+3. Emotion ohne Kitsch: Verwende echte, greifbare Bilder statt Phrasen
+4. Struktur & Leserführung: Hook → Problem → Lösung → CTA
+5. Verständliche Sprache: Kurze, präzise Sätze
+6. Problemorientierung: Benenne konkrete Probleme der Zielgruppe
+7. Prägnanz: Jeder Satz muss eine Funktion erfüllen
+8. Visuelle Bildsprache: Erzeuge "Kino im Kopf"
+9. Call to Action: Leite zur Handlung
+10. Stilmittel: Nutze rhetorische Stilmittel natürlich im Text
+
+CHRISTIANSHRS 2.0 STYLE - WICHTIGE REGELN:
+
+POSITIV-DIREKT FORMULIEREN:
+✅ "Ihr wisst genau, was ihr wollt"
+✅ "Eure Vision verdient Realität"  
+✅ "Ihr habt klare Vorstellungen"
+✅ "Qualität ist euch wichtig"
+
+NIEMALS KONKURRENZ/KOLLEGEN SCHLECHTMACHEN:
+❌ "Während andere euch mit Standard-Paketen abspeisen"
+❌ "Andere Anbieter versagen bei..."
+❌ "Im Gegensatz zu anderen..."
+❌ "Wo andere scheitern..."
+
+PROBLEME BENENNEN - ABER RICHTIG:
+✅ "Keine endlosen Telefonate"
+✅ "Schluss mit Planungsstress"
+✅ "Nie wieder schlaflose Nächte wegen Details"
+✅ "Weg mit der Überforderung"
+
+CHRISTIANSHRS 2.0 BEDEUTET:
+- Direkte, ehrliche Kommunikation
+- Konkrete Fakten statt Marketing-Floskeln
+- "Real Talk" - aber immer AUFBAUEND
+- Probleme lösen, nicht Schuldige suchen
+- Fokus auf POSITIVE Abgrenzung durch eigene Stärken
+
+FORMATIERUNG:
+- Reiner, sauberer Text ohne jegliche Formatierungen
+- Keine HTML-Tags oder Markierungen
+- Keine Unterstreichungen oder Hervorhebungen
+- Keine Markdown-Syntax
+- Nur normaler Fließtext`;
+
+            // Verwendungszweck hinzufügen
+            if (params.purpose && params.purpose.trim() !== '') {
+                const purposeParts = params.purpose.split('|');
+                const verwendungszweck = purposeParts[0] || '';
+                const wordCount = purposeParts[1] || '';
+                const example = purposeParts[2] || '';
+
+                prompt += `
+
+VERWENDUNGSZWECK & TEXTLÄNGE:
+- Zweck: ${verwendungszweck}
+- Empfohlene Wortanzahl: ${wordCount} Wörter
+${example ? `- Beispiel-Orientierung: "${example}"` : ''}
+- WICHTIG: Halte dich an diese Wortanzahl-Vorgabe!`;
+            }
+
+            // Parameter hinzufügen
+            prompt += `
+
+Gewerk: ${params.service || 'Nicht angegeben'}
+${params.target ? `Zielgruppe: ${params.target}` : ''}
+${params.usp ? `USP: ${params.usp}` : ''}
+
+Schreibe den Text nach diesem Regelwerk in ChristiansHRS 2.0 Style.`;
+
+            return prompt;
         }
 
         // Nachricht hinzufügen
