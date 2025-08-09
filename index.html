@@ -613,7 +613,27 @@
                 if (value.length > 0) {
                     showDropdown(value);
                 } else {
-                    hideDropdown();
+                    showAllTags();
+                }
+            });
+
+            input.addEventListener('click', function(e) {
+                console.log('Input clicked');
+                const value = e.target.value.trim();
+                if (value.length > 0) {
+                    showDropdown(value);
+                } else {
+                    showAllTags();
+                }
+            });
+
+            input.addEventListener('focus', function(e) {
+                console.log('Input focused');
+                const value = e.target.value.trim();
+                if (value.length > 0) {
+                    showDropdown(value);
+                } else {
+                    showAllTags();
                 }
             });
 
@@ -632,10 +652,29 @@
 
             // Click outside to close dropdown
             document.addEventListener('click', function(e) {
-                if (!e.target.closest('.tag-input-container')) {
+                if (!e.target.closest('.tag-input-container') && !e.target.closest('.dropdown')) {
                     hideDropdown();
                 }
             });
+        }
+
+        function showAllTags() {
+            console.log('Showing all available tags');
+            const dropdown = document.getElementById('dropdown');
+            const availableTags = predefinedTags.filter(tag => !selectedTags.includes(tag));
+
+            let dropdownHTML = '';
+            availableTags.forEach(tag => {
+                dropdownHTML += `<div class="dropdown-item" onclick="addTag('${tag.replace(/'/g, "\\'")}')">${tag}</div>`;
+            });
+
+            if (dropdownHTML) {
+                dropdown.innerHTML = dropdownHTML;
+                dropdown.style.display = 'block';
+                console.log('All tags dropdown shown');
+            } else {
+                hideDropdown();
+            }
         }
 
         function showDropdown(searchTerm) {
