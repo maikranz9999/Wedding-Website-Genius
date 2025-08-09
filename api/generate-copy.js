@@ -1,4 +1,4 @@
-// /api/generate-copy.js - AKTUALISIERTE VERSION
+// /api/generate-copy.js - KOMPLETTE VERSION MIT BESCHREIBUNG
 import fs from 'fs';
 import path from 'path';
 
@@ -23,14 +23,20 @@ export default async function handler(req, res) {
   try {
     const { prompt, service, target, usp, tone, purpose } = req.body;
 
-    // Validation
-    if (!prompt || !service) {
+    // Erweiterte Validation
+    const errors = [];
+    if (!prompt?.trim()) errors.push('Prompt ist erforderlich');
+    if (!service?.trim()) errors.push('Gewerk ist erforderlich');
+    if (prompt && prompt.length > 2000) errors.push('Prompt ist zu lang (max. 2000 Zeichen)');
+    
+    if (errors.length > 0) {
       return res.status(400).json({ 
-        error: 'Prompt und Gewerk sind erforderlich' 
+        error: 'Validierungsfehler',
+        details: errors.join(', ')
       });
     }
 
-    // NEUE FUNKTION: Requirements-Daten laden
+    // Requirements-Daten laden
     await loadRequirements();
 
     // System Prompt generieren (JETZT MIT BESCHREIBUNG)
@@ -38,50 +44,91 @@ export default async function handler(req, res) {
       prompt, service, target, usp, tone, purpose
     });
 
-    // Claude API Call
-    const response = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': process.env.CLAUDE_API_KEY,
-        'anthropic-version': '2023-06-01'
-      },
-      body: JSON.stringify({
-        model: 'claude-3-5-sonnet-20241022',
-        max_tokens: 1000,
-        system: systemPrompt,
-        messages: [{
-          role: 'user',
-          content: prompt
-        }]
-      })
-    });
+    // Claude API Call mit Retry-Logic
+    let retryCount = 0;
+    const maxRetries = 3;
+    
+    while (retryCount < maxRetries) {
+      try {
+        const response = await fetch('https://api.anthropic.com/v1/messages', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'x-api-key': process.env.CLAUDE_API_KEY,
+            'anthropic-version': '2023-06-01'
+          },
+          body: JSON.stringify({
+            model: 'claude-3-5-sonnet-20241022',
+            max_tokens: 1000,
+            system: systemPrompt,
+            messages: [{
+              role: 'user',
+              content: prompt
+            }]
+          })
+        });
 
-    if (!response.ok) {
-      const errorData = await response.json();
-      console.error('Claude API Error:', errorData);
-      return res.status(500).json({ 
-        error: 'API-Anfrage fehlgeschlagen: ' + (errorData.error?.message || 'Unbekannter Fehler')
-      });
+        if (response.ok) {
+          const data = await response.json();
+          const generatedCopy = data.content[0].text;
+
+          // Logging für Analytics
+          console.log(`Copy generated successfully for service: ${service}, purpose: ${purpose?.split('|')[0] || 'none'}`);
+
+          return res.status(200).json({ 
+            copy: generatedCopy,
+            success: true,
+            meta: {
+              wordCount: generatedCopy.split(' ').length,
+              timestamp: new Date().toISOString()
+            }
+          });
+        }
+
+        const errorData = await response.json();
+        
+        // Spezifische Claude API Fehler
+        if (response.status === 429) {
+          // Rate Limited - Retry mit Exponential Backoff
+          await new Promise(resolve => setTimeout(resolve, Math.pow(2, retryCount) * 1000));
+          retryCount++;
+          continue;
+        }
+        
+        if (response.status === 401) {
+          console.error('Claude API Authentication failed');
+          return res.status(500).json({ 
+            error: 'API-Konfigurationsfehler',
+            details: 'Claude API-Key ungültig oder fehlt'
+          });
+        }
+
+        throw new Error(errorData.error?.message || `API Error: ${response.status}`);
+        
+      } catch (fetchError) {
+        retryCount++;
+        if (retryCount >= maxRetries) {
+          throw fetchError;
+        }
+        await new Promise(resolve => setTimeout(resolve, 1000));
+      }
     }
 
-    const data = await response.json();
-    const generatedCopy = data.content[0].text;
-
-    return res.status(200).json({ 
-      copy: generatedCopy,
-      success: true 
-    });
-
   } catch (error) {
-    console.error('Generate Copy Error:', error);
+    console.error('Generate Copy Error:', {
+      message: error.message,
+      stack: error.stack,
+      timestamp: new Date().toISOString()
+    });
+    
     return res.status(500).json({ 
-      error: 'Interner Server-Fehler: ' + error.message 
+      error: 'Interner Server-Fehler',
+      details: process.env.NODE_ENV === 'development' ? error.message : 'Bitte versuche es später erneut'
     });
   }
 }
 
-// NEUE FUNKTION: Requirements aus JSON-Datei laden
+// Requirements aus JSON-Datei laden
 async function loadRequirements() {
   const cacheTimeout = 5 * 60 * 1000; // 5 Minuten Cache
   
@@ -95,6 +142,7 @@ async function loadRequirements() {
     const fileContent = fs.readFileSync(filePath, 'utf8');
     requirementsCache = JSON.parse(fileContent);
     cacheTimestamp = Date.now();
+    console.log(`Requirements loaded: ${requirementsCache.length} items`);
     return requirementsCache;
   } catch (error) {
     console.error('Error loading requirements:', error);
@@ -103,7 +151,21 @@ async function loadRequirements() {
   }
 }
 
-// ERWEITERTE System Prompt Funktion
+// Funktion um die richtige Beschreibung zu finden
+function findRequirementDetails(verwendungszweck) {
+  if (!requirementsCache || requirementsCache.length === 0) {
+    return null;
+  }
+
+  // Suche in der JSON-Array-Struktur
+  const match = requirementsCache.find(item => 
+    item.verwendungszweck === verwendungszweck
+  );
+
+  return match || null;
+}
+
+// ERWEITERTE System Prompt Funktion MIT BESCHREIBUNG
 function createSystemPrompt(params) {
   let prompt = `Du bist ein professioneller Copywriter für die Hochzeitsbranche, der nach einem strukturierten 10-Punkte-Regelwerk arbeitet:
 
@@ -175,6 +237,11 @@ ${example ? `- Beispiel-Orientierung: "${example}"` : ''}
 
 SPEZIFISCHE ANFORDERUNGEN FÜR DIESEN VERWENDUNGSZWECK:
 ${requirementDetails.beschreibung}`;
+
+      // Debug-Log für Entwicklung
+      console.log(`Found description for: ${verwendungszweck}`);
+    } else {
+      console.log(`No description found for: ${verwendungszweck}`);
     }
   }
 
@@ -188,18 +255,4 @@ ${params.usp ? `USP: ${params.usp}` : ''}
 Schreibe den Text nach diesem Regelwerk in ChristiansHRS 2.0 Style.`;
 
   return prompt;
-}
-
-// Funktion um die richtige Beschreibung zu finden
-function findRequirementDetails(verwendungszweck) {
-  if (!requirementsCache || requirementsCache.length === 0) {
-    return null;
-  }
-
-  // Suche in der JSON-Array-Struktur
-  const match = requirementsCache.find(item => 
-    item.verwendungszweck === verwendungszweck
-  );
-
-  return match || null;
 }
