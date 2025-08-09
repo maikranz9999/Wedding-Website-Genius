@@ -350,7 +350,7 @@
         /* Messages Container mit Blur-Effekt */
         .messages {
             flex: 1;
-            padding: 24px 24px 12px 24px;
+            padding: 24px 24px 0 24px;
             overflow-y: auto;
             background: none;
             position: relative;
@@ -625,26 +625,66 @@
             font-size: 18px;
         }
 
-        /* Chat Input Bereich */
+        /* Chat Input Bereich mit Schatten-Effekt */
         .chat-input {
             display: none;
+            position: relative;
+            z-index: 90;
+        }
+
+        .chat-input-container {
+            padding: 16px 24px;
+            background: rgba(26, 26, 46, 0.85);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 0 0 16px 16px;
+            box-shadow: 
+                0 -8px 32px rgba(0, 0, 0, 0.3),
+                0 -4px 20px rgba(114, 9, 183, 0.1);
+            border-top: 1px solid rgba(114, 9, 183, 0.2);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Schatten nach oben für Chat-Input */
+        .chat-input-container::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            left: 0;
+            right: 0;
+            height: 20px;
+            background: linear-gradient(
+                to top,
+                rgba(26, 26, 46, 0.4) 0%,
+                rgba(26, 26, 46, 0.2) 30%,
+                rgba(26, 26, 46, 0.1) 60%,
+                transparent 100%
+            );
+            opacity: 1;
+            pointer-events: none;
+            z-index: 89;
+        }
+
+        /* Enhanced Chat-Input beim Tippen */
+        .chat-input-container:focus-within {
+            background: rgba(26, 26, 46, 0.95);
+            backdrop-filter: blur(20px);
+            box-shadow: 
+                0 -8px 32px rgba(0, 0, 0, 0.4),
+                0 -4px 20px rgba(114, 9, 183, 0.2);
+            border-top: 1px solid rgba(114, 9, 183, 0.4);
         }
 
         .chat-input textarea {
             font-size: 13px !important;
             padding: 10px !important;
             min-height: 36px !important;
-            max-height: 90px !important;
+            max-height: 80px !important;
         }
 
         .chat-input button {
             padding: 10px 16px !important;
             font-size: 13px !important;
-        }
-
-        .chat-input div[style*="font-size: 11px"] {
-            font-size: 10px !important;
-            margin-top: 6px !important;
         }
 
         @media (max-width: 768px) {
@@ -754,7 +794,7 @@
             </div>
 
             <div class="chat-input" id="chatInput" style="display: none;">
-                <div style="padding: 16px; background: rgba(26, 26, 46, 0.85); backdrop-filter: blur(15px); border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.1); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3); margin: 8px 16px;">
+                <div class="chat-input-container">
                     <div style="display: flex; gap: 8px; align-items: flex-end;">
                         <textarea id="chatMessage" placeholder="z.B. 'Mach es kürzer', 'Mehr Emotion', 'Andere Tonalität'..." 
                                 style="flex: 1; padding: 10px; border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 8px; resize: none; min-height: 36px; max-height: 80px; background: rgba(0, 0, 0, 0.4); color: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 13px;"></textarea>
