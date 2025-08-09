@@ -132,11 +132,11 @@
     "beispiel": "",
     "beschreibung": ""
   },
-  {
-    "sektion": "8. Sonstige Inhaltsbereiche",
-    "verwendungszweck": "FAQ-Fragen & Antworten",
-    "woerter": "30–80 pro Antwort",
-    "beispiel": "",
-    "beschreibung": ""
-  }
+{
+  "sektion": "8. Sonstige Inhaltsbereiche",
+  "verwendungszweck": "FAQ-Fragen & Antworten",
+  "woerter": "30–80 pro Antwort",
+  "beispiel": "Arbeitest du mit festen Hochzeits-DJs zusammen?\nFür mich ist es entscheidend, mit DJs zusammenzuarbeiten, die nicht nur hohe Qualität am Hochzeitstag bieten, sondern auch genau wissen, wie sie die Stimmung der Hochzeitsgesellschaft im Blick haben und diese dauerhaft auf der Tanzfläche halten. Zudem verfügen nicht alle DJs über die technische Ausstattung, um einen Livemusiker professionell einzubinden. Aus diesem Grund arbeite ich ausschließlich mit festen DJs zusammen, die sowohl technisch als auch qualitativ in der Lage sind, diese Anforderungen zu erfüllen.\n\nMüssen wir uns selbst um einen Hochzeits-DJ kümmern, wenn du als Saxophonist zur Party kommst?\nNein, bei mir bekommt ihr ein Rundum-sorglos-Paket! Ich übernehme die Organisation eines erfahrenen DJs, der perfekt zu eurer Hochzeitsparty passt. Gemeinsam sorgen wir dafür, dass eure Feier unvergesslich wird. Somit könnt ihr euch entspannt zurücklehnen – ich kümmere mich um alles, von der Abstimmung der Musik bis zum perfekten Live-Saxophon.\n\nKann man dich auch für Hochzeiten buchen, die nicht in Frankfurt, Aschaffenburg, Würzburg oder Wiesbaden stattfinden?\nJa, ich biete meine Dienstleistung für Hochzeiten außerhalb von Frankfurt, Aschaffenburg, Wiesbaden oder Würzburg an. Ihr könnt mich mit DJ für ganz Deutschland und das angrenzende europäische Ausland buchen.\n\nBist du selbst Hochzeits-DJ?\nNein, ich bin kein Hochzeits-DJ, sondern konzentriere mich ganz auf das Saxophon, um eure Hochzeit einzigartig werden zu lassen. Ich arbeite jedoch mit einem festen Netzwerk an erfahrenen DJs zusammen, die genau wissen, wie man eine Hochzeitsparty unvergesslich macht. So kann ich garantieren, dass sowohl die Musik als auch das Zusammenspiel von Live-Performance und DJ nahtlos funktionieren. Würde ich beides machen, würde die Qualität darunter leiden – deshalb setze ich auf die Zusammenarbeit mit Profis.\n\nWas kostet es, wenn wir dich für unsere Hochzeit buchen?\nDie Kosten hängen von verschiedenen Faktoren ab, wie Datum, Ort, Dauer des Einsatzes und zusätzlichen Leistungen wie DJ-Begleitung oder Technikpaketen. Gerne erstelle ich euch nach einem kurzen Gespräch ein individuelles Angebot, das genau auf eure Feier abgestimmt ist.",
+  "beschreibung": "Das FAQ-Element beantwortet häufig gestellte Fragen der Zielgruppe in einem kompakten und klaren Format. Jede Antwort umfasst in der Regel 30 bis 80 Wörter und ist so formuliert, dass sie leicht verständlich ist und konkrete Informationen liefert. Es werden mindestens fünf Fragen beantwortet. Falls vom Prompt nicht anders gewünscht, wird immer eine Frage zu den Kosten oder Preisen gestellt (z. B. 'Was kostet es, wenn wir dich engagieren?'). Die Fragen sind lebensnah, praxisorientiert und beziehen sich auf typische Überlegungen der Zielgruppe. Sie können sowohl organisatorische als auch inhaltliche Themen umfassen, um mögliche Unsicherheiten im Vorfeld zu klären."
+}
 ]
