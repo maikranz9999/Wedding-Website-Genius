@@ -13,31 +13,11 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(45deg, #1a1a2e, #16213e, #0f3460, #533483, #7209b7, #533483, #0f3460, #16213e);
-            background-size: 400% 400%;
-            animation: gradientShift 15s ease infinite;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 25%, #0f3460 50%, #533483 75%, #7209b7 100%);
             min-height: 100vh;
             padding: 20px;
             color: #ffffff;
             overflow-x: hidden;
-        }
-
-        @keyframes gradientShift {
-            0% {
-                background-position: 0% 50%;
-            }
-            25% {
-                background-position: 100% 50%;
-            }
-            50% {
-                background-position: 100% 100%;
-            }
-            75% {
-                background-position: 50% 0%;
-            }
-            100% {
-                background-position: 0% 50%;
-            }
         }
 
         .container {
@@ -76,6 +56,7 @@
 
         .input-group {
             margin-bottom: 15px;
+            position: relative;
         }
 
         .input-group label {
@@ -113,6 +94,126 @@
         .input-group textarea {
             resize: vertical;
             min-height: 80px;
+        }
+
+        /* TAG SYSTEM STYLES */
+        .tag-input-container {
+            position: relative;
+            width: 100%;
+            min-height: 45px;
+            padding: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            align-items: center;
+            transition: all 0.2s ease;
+        }
+
+        .tag-input-container:focus-within {
+            border-color: #7209b7;
+            box-shadow: 0 0 0 3px rgba(114, 9, 183, 0.3);
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            flex: 1;
+        }
+
+        .tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 8px;
+            background: linear-gradient(135deg, #7209b7, #533483);
+            color: white;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 500;
+            animation: fadeIn 0.2s ease;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .tag-remove {
+            cursor: pointer;
+            font-weight: bold;
+            padding: 0 4px;
+            border-radius: 3px;
+            transition: background 0.2s;
+        }
+
+        .tag-remove:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .tag-input-container input {
+            border: none !important;
+            background: transparent !important;
+            color: rgba(255, 255, 255, 0.95) !important;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+            font-size: 14px !important;
+            outline: none !important;
+            flex: 1;
+            min-width: 200px;
+            padding: 4px !important;
+            box-shadow: none !important;
+            text-align: left !important;
+            direction: ltr !important;
+        }
+
+        .tag-input-container input::placeholder {
+            color: rgba(255, 255, 255, 0.6) !important;
+            text-align: left !important;
+            direction: ltr !important;
+        }
+
+        .dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: rgba(26, 26, 46, 0.95);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 1000;
+            display: none;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+        }
+
+        .dropdown-item {
+            padding: 10px 12px;
+            color: rgba(255, 255, 255, 0.9);
+            cursor: pointer;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: background 0.2s;
+            font-size: 14px;
+        }
+
+        .dropdown-item:hover {
+            background: rgba(114, 9, 183, 0.3);
+        }
+
+        .dropdown-item:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown-item.create-new {
+            background: rgba(114, 9, 183, 0.2);
+            font-weight: 500;
+        }
+
+        .dropdown-item.create-new:hover {
+            background: rgba(114, 9, 183, 0.4);
         }
 
         .input-group small {
@@ -398,7 +499,12 @@
 
             <div class="input-group">
                 <label>Zielgruppe (optional)</label>
-                <input type="text" id="target" placeholder="z.B. Brautpaare 25-35, Luxussegment...">
+                <div class="tag-input-container" id="tagContainer">
+                    <div class="tags" id="tags"></div>
+                    <input type="text" id="target" placeholder="z.B. Brautpaare 25-35, Luxussegment..." autocomplete="off">
+                </div>
+                <div class="dropdown" id="dropdown"></div>
+                <small>Gib Text ein für Vorschläge oder drücke Enter um Tags hinzuzufügen</small>
             </div>
 
             <div class="input-group">
@@ -461,6 +567,149 @@
             stats: { total: 0, positive: 0, negative: 0 }
         };
         let csvData = [];
+        let selectedTags = [];
+
+        // Vordefinierte Zielgruppen-Tags
+        const predefinedTags = [
+            "Brautpaare 25-35",
+            "Junge Paare",
+            "Internationale Paare",
+            "Zweitheirat",
+            "Luxussegment",
+            "Ultra Luxus",
+            "Budget-bewusst",
+            "Klassisch-elegant",
+            "Moderne Paare",
+            "Vintage-Liebhaber",
+            "Boho-Style",
+            "Nachhaltig",
+            "Fine Art",
+            "Old Money",
+            "Rustikal",
+            "Minimalistisch",
+            "Destination Wedding",
+            "Hochzeit im Inland",
+            "Outdoor-Hochzeit",
+            "Große Hochzeit",
+            "Intime Feier",
+            "Familienorientiert",
+            "Party-Liebhaber",
+            "Ruhige Atmosphäre",
+            "Hochzeit mit vielen Highlights",
+            "Winterhochzeit",
+            "Sommerhochzeit",
+            "Hochzeit-Wochenende",
+            "DIY-orientiert",
+            "Full-Service gewünscht"
+        ];
+
+        // Tag-System Funktionen
+        function initTagSystem() {
+            const input = document.getElementById('target');
+            const dropdown = document.getElementById('dropdown');
+
+            input.addEventListener('input', function(e) {
+                const value = e.target.value.trim();
+                console.log('Input event:', value);
+                if (value.length > 0) {
+                    showDropdown(value);
+                } else {
+                    hideDropdown();
+                }
+            });
+
+            input.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    const value = e.target.value.trim();
+                    console.log('Enter pressed with value:', value);
+                    if (value) {
+                        addTag(value);
+                        e.target.value = '';
+                        hideDropdown();
+                    }
+                }
+            });
+
+            // Click outside to close dropdown
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('.tag-input-container')) {
+                    hideDropdown();
+                }
+            });
+        }
+
+        function showDropdown(searchTerm) {
+            console.log('Showing dropdown for:', searchTerm);
+            const dropdown = document.getElementById('dropdown');
+            const matches = predefinedTags.filter(tag => 
+                tag.toLowerCase().includes(searchTerm.toLowerCase()) &&
+                !selectedTags.includes(tag)
+            );
+
+            console.log('Matches found:', matches);
+
+            let dropdownHTML = '';
+
+            // Zeige passende vordefinierte Tags
+            matches.forEach(tag => {
+                dropdownHTML += `<div class="dropdown-item" onclick="addTag('${tag.replace(/'/g, "\\'")}')">${tag}</div>`;
+            });
+
+            // Option zum Erstellen eines neuen Tags
+            if (!matches.includes(searchTerm) && !selectedTags.includes(searchTerm)) {
+                dropdownHTML += `<div class="dropdown-item create-new" onclick="addTag('${searchTerm.replace(/'/g, "\\'")}')">\u002B "${searchTerm}" hinzufügen</div>`;
+            }
+
+            if (dropdownHTML) {
+                dropdown.innerHTML = dropdownHTML;
+                dropdown.style.display = 'block';
+                console.log('Dropdown shown');
+            } else {
+                hideDropdown();
+            }
+        }
+
+        function hideDropdown() {
+            const dropdown = document.getElementById('dropdown');
+            dropdown.style.display = 'none';
+        }
+
+        function addTag(tagText) {
+            console.log('Adding tag:', tagText);
+            if (!selectedTags.includes(tagText)) {
+                selectedTags.push(tagText);
+                renderTags();
+                document.getElementById('target').value = '';
+                hideDropdown();
+                console.log('Selected tags:', selectedTags);
+            }
+        }
+
+        function removeTag(tagText) {
+            console.log('Removing tag:', tagText);
+            selectedTags = selectedTags.filter(tag => tag !== tagText);
+            renderTags();
+        }
+
+        function renderTags() {
+            const tagsContainer = document.getElementById('tags');
+            tagsContainer.innerHTML = '';
+
+            selectedTags.forEach(tag => {
+                const tagElement = document.createElement('div');
+                tagElement.className = 'tag';
+                tagElement.innerHTML = `
+                    <span>${tag}</span>
+                    <span class="tag-remove" onclick="removeTag('${tag.replace(/'/g, "\\'")}')">\u00D7</span>
+                `;
+                tagsContainer.appendChild(tagElement);
+            });
+        }
+
+        function getTargetString() {
+            return selectedTags.join(', ');
+        }
 
         // JSON-Daten laden
         async function loadCSVData() {
@@ -714,7 +963,7 @@ Schreibe den Text nach diesem Regelwerk in ChristiansHRS 2.0 Style.`;
             const params = {
                 prompt: document.getElementById('prompt').value,
                 service: document.getElementById('service').value,
-                target: document.getElementById('target').value,
+                target: getTargetString(),
                 usp: document.getElementById('usp').value,
                 tone: 'christiansHRS',
                 purpose: document.getElementById('purpose').value
@@ -861,6 +1110,7 @@ Schreibe den Text nach diesem Regelwerk in ChristiansHRS 2.0 Style.`;
         document.addEventListener('DOMContentLoaded', function() {
             loadFeedbackData();
             loadCSVData();
+            initTagSystem();
             
             const chatInput = document.getElementById('chatMessage');
             if (chatInput) {
