@@ -133,6 +133,13 @@
   "beschreibung": "Die Meta-Beschreibung ist der kurze Text unter dem Meta-Titel in den Google-Suchergebnissen. Sie soll zwischen 150–160 Zeichen lang sein, so nah wie möglich an der Obergrenze, ohne diese zu überschreiten. Das Haupt-Keyword wird möglichst weit vorne platziert, idealerweise in den ersten Worten. Der Text muss den Inhalt der Seite präzise widerspiegeln und darf keine falschen Versprechen enthalten. Eine klare Handlungsaufforderung (CTA) wie 'Jetzt entdecken', 'Mehr erfahren' oder 'Angebot anfragen' steigert die Klickrate. Die Formulierung sollte in ganzen Sätzen erfolgen, klar verständlich und in natürlicher Sprache. Keyword-Stuffing ist zu vermeiden – das Haupt-Keyword wird gezielt und nur einmal natürlich eingebunden. Ziel ist es, dem Nutzer den Nutzen und USP der Seite auf den ersten Blick zu vermitteln und ihn so zum Klicken zu bewegen. Wenn im Prompt keine konkrete Meta-Beschreibung vorgegeben ist, werden mindestens 5 verschiedene, zur Dienstleistung passende Vorschläge generiert."
 },
 {
+  "sektion": "7. SEO-Elemente",
+  "verwendungszweck": "Bilddateinamen + Alttags",
+  "woerter": "Bilddateiname: max. 5–8 Wörter, Alt-Tag: 5–15 Wörter",
+  "beispiel": "Tabelle mit zwei Spalten: Linke Spalte = Bilddateiname (z. B. hochzeit-villa-balbianello-italien.jpg), rechte Spalte = Alt-Tag (z. B. Brautpaar bei Sonnenuntergang vor der Villa Balbianello am Comer See in Italien). Mindestens 20 Zeilen mit verschiedenen, individuellen Einträgen.",
+  "beschreibung": "Dieses Element liefert eine Tabelle mit zwei Spalten: links die optimierten Bilddateinamen, rechts die passenden ALT-Texte. Es werden mindestens 20 Zeilen ausgegeben. Die Regeln für Bilddateinamen: Kleinbuchstaben, keine Umlaute oder Sonderzeichen, Wörter mit Bindestrich trennen, Haupt-Keyword möglichst am Anfang, keine Keyword-Wiederholung, maximal 5–8 Wörter pro Dateiname, klar und beschreibend. Die Regeln für ALT-Tags: 5–15 Wörter, den Bildinhalt präzise beschreiben, Haupt-Keyword möglichst weit vorne platzieren, keine überflüssigen Begriffe wie 'Bild von' oder 'Foto von', natürlich formulieren und im Kontext der Seite passend. Jeder ALT-Tag ist individuell und beschreibt exakt das jeweilige Bild. Ziel ist es, Bilddateinamen und ALT-Texte SEO-optimiert und gleichzeitig barrierefrei zu gestalten."
+},
+{
   "sektion": "8. Sonstige Inhaltsbereiche",
   "verwendungszweck": "FAQ-Fragen & Antworten",
   "woerter": "30–80 pro Antwort",
