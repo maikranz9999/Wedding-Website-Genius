@@ -125,13 +125,13 @@
   "beispiel": "Exklusive Destination Weddings in Italien | Hochzeitsplaner",
   "beschreibung": "Der Meta-Titel ist der klickbare Titel, der in den Google-Suchergebnissen erscheint. Er sollte das Haupt-Keyword enthalten (z. B. 'Destination Wedding Italien', 'Hochzeitsplaner Italien'), den USP oder ein attraktives Angebot anreißen und maximal 60 Zeichen lang sein. Der Titel soll so nah wie möglich an die 60 Zeichen kommen, aber NIEMALS überschreiten. Das Haupt-Keyword wird dabei möglichst weit vorne platziert, um Relevanz für Suchmaschinen zu erhöhen. Wenn im Prompt kein Titel vorgegeben ist, werden mindestens 10 verschiedene Meta-Titel-Varianten als Vorschläge generiert. Ziel ist es, sowohl für Suchmaschinen optimiert zu sein als auch den Nutzer zum Klicken zu animieren."
 },
-  {
-    "sektion": "7. SEO-Elemente",
-    "verwendungszweck": "Meta-Beschreibung",
-    "woerter": "max. 160 Zeichen",
-    "beispiel": "",
-    "beschreibung": ""
-  },
+{
+  "sektion": "7. SEO-Elemente",
+  "verwendungszweck": "Meta-Beschreibung",
+  "woerter": "max. 160 Zeichen",
+  "beispiel": "Exklusive Hochzeitsplanung in Italien – stressfrei, individuell & unvergesslich. Jetzt Termin sichern und Traumhochzeit gestalten lassen.",
+  "beschreibung": "Die Meta-Beschreibung ist der kurze Text unter dem Meta-Titel in den Google-Suchergebnissen. Sie soll zwischen 150–160 Zeichen lang sein, so nah wie möglich an der Obergrenze, ohne diese zu überschreiten. Das Haupt-Keyword wird möglichst weit vorne platziert, idealerweise in den ersten Worten. Der Text muss den Inhalt der Seite präzise widerspiegeln und darf keine falschen Versprechen enthalten. Eine klare Handlungsaufforderung (CTA) wie 'Jetzt entdecken', 'Mehr erfahren' oder 'Angebot anfragen' steigert die Klickrate. Die Formulierung sollte in ganzen Sätzen erfolgen, klar verständlich und in natürlicher Sprache. Keyword-Stuffing ist zu vermeiden – das Haupt-Keyword wird gezielt und nur einmal natürlich eingebunden. Ziel ist es, dem Nutzer den Nutzen und USP der Seite auf den ersten Blick zu vermitteln und ihn so zum Klicken zu bewegen."
+},
 {
   "sektion": "8. Sonstige Inhaltsbereiche",
   "verwendungszweck": "FAQ-Fragen & Antworten",
