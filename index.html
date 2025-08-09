@@ -1079,7 +1079,7 @@
         // JSON-Daten laden
         async function loadCSVData() {
             try {
-                const response = await fetch('./data/requirements.json');
+                const response = await fetch('./data/requirements.json?v=' + Date.now());
                 if (!response.ok) {
                     throw new Error('JSON konnte nicht geladen werden');
                 }
