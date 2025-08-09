@@ -136,8 +136,8 @@
   "sektion": "7. SEO-Elemente",
   "verwendungszweck": "Bilddateinamen + Alttags",
   "woerter": "Bilddateiname: max. 5–8 Wörter, Alt-Tag: 5–15 Wörter",
-  "beispiel": "Tabelle mit zwei Spalten: Linke Spalte = Bilddateiname (z. B. hochzeit-villa-balbianello-italien.jpg), rechte Spalte = Alt-Tag (z. B. Brautpaar bei Sonnenuntergang vor der Villa Balbianello am Comer See in Italien). Mindestens 20 Zeilen mit verschiedenen, individuellen Einträgen.",
-  "beschreibung": "Dieses Element liefert eine Tabelle mit zwei Spalten: links die optimierten Bilddateinamen, rechts die passenden ALT-Texte. Es werden mindestens 20 Zeilen ausgegeben. Die Regeln für Bilddateinamen: Kleinbuchstaben, keine Umlaute oder Sonderzeichen, Wörter mit Bindestrich trennen, Haupt-Keyword möglichst am Anfang, keine Keyword-Wiederholung, maximal 5–8 Wörter pro Dateiname, klar und beschreibend. Die Regeln für ALT-Tags: 5–15 Wörter, den Bildinhalt präzise beschreiben, Haupt-Keyword möglichst weit vorne platzieren, keine überflüssigen Begriffe wie 'Bild von' oder 'Foto von', natürlich formulieren und im Kontext der Seite passend. Jeder ALT-Tag ist individuell und beschreibt exakt das jeweilige Bild. Ziel ist es, Bilddateinamen und ALT-Texte SEO-optimiert und gleichzeitig barrierefrei zu gestalten."
+  "beispiel": "tuscany-destination-wedding-villa.jpg\nElegantes Brautpaar im Editorial-Stil vor historischer Villa in der Toskana",
+  "beschreibung": "Dieser Abschnitt erstellt eine Liste mit mindestens 20 Bilddateinamen und den dazugehörigen Alt-Tags. Die Ausgabe erfolgt zweizeilig pro Eintrag: In der ersten Zeile steht der Bilddateiname (kleinbuchstaben, Bindestriche statt Leerzeichen, keine Sonderzeichen, relevante Keywords), in der zweiten Zeile der Alt-Tag (aussagekräftig, beschreibend, relevante Keywords, aber kein Keyword-Stuffing). Keine Trennstriche oder Sonderzeichen zwischen den Zeilen verwenden. Die Bilddateinamen sind SEO-optimiert, maximal 5–8 Wörter lang und spiegeln den Bildinhalt wider. Die Alt-Tags bestehen aus 5–15 Wörtern und beschreiben präzise, was im Bild zu sehen ist, inkl. relevanter Suchbegriffe."
 },
 {
   "sektion": "8. Sonstige Inhaltsbereiche",
