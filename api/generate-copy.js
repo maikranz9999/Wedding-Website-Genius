@@ -1,11 +1,17 @@
-// /api/generate-copy.js
+// /api/generate-copy.js - AKTUALISIERTE VERSION
+import fs from 'fs';
+import path from 'path';
+
+// Cache für die Requirements-Daten
+let requirementsCache = null;
+let cacheTimestamp = null;
+
 export default async function handler(req, res) {
   // CORS Headers
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
-  // Handle preflight request
   if (req.method === 'OPTIONS') {
     return res.status(200).end();
   }
@@ -24,7 +30,10 @@ export default async function handler(req, res) {
       });
     }
 
-    // System Prompt generieren
+    // NEUE FUNKTION: Requirements-Daten laden
+    await loadRequirements();
+
+    // System Prompt generieren (JETZT MIT BESCHREIBUNG)
     const systemPrompt = createSystemPrompt({
       prompt, service, target, usp, tone, purpose
     });
@@ -72,7 +81,29 @@ export default async function handler(req, res) {
   }
 }
 
-// System Prompt Funktion
+// NEUE FUNKTION: Requirements aus JSON-Datei laden
+async function loadRequirements() {
+  const cacheTimeout = 5 * 60 * 1000; // 5 Minuten Cache
+  
+  if (requirementsCache && cacheTimestamp && 
+      Date.now() - cacheTimestamp < cacheTimeout) {
+    return requirementsCache;
+  }
+
+  try {
+    const filePath = path.join(process.cwd(), 'data', 'requirements.json');
+    const fileContent = fs.readFileSync(filePath, 'utf8');
+    requirementsCache = JSON.parse(fileContent);
+    cacheTimestamp = Date.now();
+    return requirementsCache;
+  } catch (error) {
+    console.error('Error loading requirements:', error);
+    requirementsCache = []; // Fallback
+    return requirementsCache;
+  }
+}
+
+// ERWEITERTE System Prompt Funktion
 function createSystemPrompt(params) {
   let prompt = `Du bist ein professioneller Copywriter für die Hochzeitsbranche, der nach einem strukturierten 10-Punkte-Regelwerk arbeitet:
 
@@ -85,7 +116,7 @@ function createSystemPrompt(params) {
 7. Prägnanz: Jeder Satz muss eine Funktion erfüllen
 8. Visuelle Bildsprache: Erzeuge "Kino im Kopf"
 9. Call to Action: Leite zur Handlung
-10. Stilmittel: Nutze alle 40 Wörter mindestens ein rhetorisches Stilmittel
+10. Stilmittel: Nutze rhetorische Stilmittel natürlich im Text
 
 CHRISTIANSHRS 2.0 STYLE - WICHTIGE REGELN:
 
@@ -114,14 +145,12 @@ CHRISTIANSHRS 2.0 BEDEUTET:
 - Probleme lösen, nicht Schuldige suchen
 - Fokus auf POSITIVE Abgrenzung durch eigene Stärken
 
-STILMITTEL-MARKIERUNG:
-- Wenn du ein rhetorisches Stilmittel verwendest, markiere es mit <span style="border-bottom: 2px solid lightblue;">Text mit Stilmittel</span>
-
 FORMATIERUNG:
-- Verwende die Stilmittel-Markierung wie oben beschrieben
-- Ansonsten keine weiteren Formatierungszeichen
-- Reiner, sauberer Text
-- Keine Markdown-Syntax`;
+- Reiner, sauberer Text ohne jegliche Formatierungen
+- Keine HTML-Tags oder Markierungen
+- Keine Unterstreichungen oder Hervorhebungen
+- Keine Markdown-Syntax
+- Nur normaler Fließtext`;
 
   // Verwendungszweck hinzufügen
   if (params.purpose && params.purpose.trim() !== '') {
@@ -137,6 +166,16 @@ VERWENDUNGSZWECK & TEXTLÄNGE:
 - Empfohlene Wortanzahl: ${wordCount} Wörter
 ${example ? `- Beispiel-Orientierung: "${example}"` : ''}
 - WICHTIG: Halte dich an diese Wortanzahl-Vorgabe!`;
+
+    // HIER DIE BESCHREIBUNG HINZUFÜGEN
+    const requirementDetails = findRequirementDetails(verwendungszweck);
+    
+    if (requirementDetails && requirementDetails.beschreibung) {
+      prompt += `
+
+SPEZIFISCHE ANFORDERUNGEN FÜR DIESEN VERWENDUNGSZWECK:
+${requirementDetails.beschreibung}`;
+    }
   }
 
   // Parameter hinzufügen
@@ -149,4 +188,18 @@ ${params.usp ? `USP: ${params.usp}` : ''}
 Schreibe den Text nach diesem Regelwerk in ChristiansHRS 2.0 Style.`;
 
   return prompt;
+}
+
+// Funktion um die richtige Beschreibung zu finden
+function findRequirementDetails(verwendungszweck) {
+  if (!requirementsCache || requirementsCache.length === 0) {
+    return null;
+  }
+
+  // Suche in der JSON-Array-Struktur
+  const match = requirementsCache.find(item => 
+    item.verwendungszweck === verwendungszweck
+  );
+
+  return match || null;
 }
