@@ -212,7 +212,9 @@ FORMATIERUNG:
 - Keine HTML-Tags oder Markierungen
 - Keine Unterstreichungen oder Hervorhebungen
 - Keine Markdown-Syntax
-- Nur normaler Fließtext`;
+- Nur normaler Fließtext
+- WICHTIG: Keine Erklärungen, keine Begründungen, keine Meta-Kommentare
+- Gib nur den gewünschten Copy aus, sonst nichts`;
 
   // Verwendungszweck hinzufügen
   if (params.purpose && params.purpose.trim() !== '') {
@@ -252,7 +254,9 @@ Gewerk: ${params.service || 'Nicht angegeben'}
 ${params.target ? `Zielgruppe: ${params.target}` : ''}
 ${params.usp ? `USP: ${params.usp}` : ''}
 
-Schreibe den Text nach diesem Regelwerk in ChristiansHRS 2.0 Style.`;
+Schreibe den Text nach diesem Regelwerk in ChristiansHRS 2.0 Style.
+
+AUSGABE-REGEL: Gib ausschließlich den gewünschten Copy-Text aus. Keine Erklärungen, keine Begründungen, keine Auflistungen von Eigenschaften. Nur der reine Text, der verwendet werden soll.`;
 
   return prompt;
 }
