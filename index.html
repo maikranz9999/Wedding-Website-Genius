@@ -5,474 +5,510 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wedding Website Genius - Der intelligente Copywriting-Bot</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+/* Optimierte Font-Größen - Ersetze den Style-Block in deiner index.html */
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 25%, #0f3460 50%, #533483 75%, #7209b7 100%);
-            min-height: 100vh;
-            padding: 20px;
-            color: #ffffff;
-            overflow-x: hidden;
-        }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            background: none;
-            border: none;
-            border-radius: 0;
-            overflow: visible;
-            display: flex;
-            height: 90vh;
-            box-shadow: none;
-        }
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 25%, #0f3460 50%, #533483 75%, #7209b7 100%);
+    min-height: 100vh;
+    padding: 20px;
+    color: #ffffff;
+    overflow-x: hidden;
+    font-size: 14px; /* Basis-Schriftgröße reduziert von 16px */
+}
 
-        .sidebar {
-            width: 400px;
-            background: rgba(26, 26, 46, 0.85);
-            backdrop-filter: blur(15px);
-            padding: 20px;
-            border-radius: 16px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            margin-right: 20px;
-            overflow-y: auto;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-        }
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    background: none;
+    border: none;
+    border-radius: 0;
+    overflow: visible;
+    display: flex;
+    height: 90vh;
+    box-shadow: none;
+}
 
-        .logo {
-            font-size: 18px;
-            font-weight: 700;
-            color: rgba(255, 255, 255, 0.95);
-            margin-bottom: 20px;
-            text-align: center;
-            padding-bottom: 15px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-        }
+.sidebar {
+    width: 400px;
+    background: rgba(26, 26, 46, 0.85);
+    backdrop-filter: blur(15px);
+    padding: 18px; /* Reduziert von 20px */
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    margin-right: 20px;
+    overflow-y: auto;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
 
-        .input-group {
-            margin-bottom: 15px;
-            position: relative;
-        }
+.logo {
+    font-size: 16px; /* Reduziert von 18px */
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.95);
+    margin-bottom: 18px; /* Reduziert von 20px */
+    text-align: center;
+    padding-bottom: 12px; /* Reduziert von 15px */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
 
-        .input-group label {
-            display: block;
-            font-weight: 500;
-            color: rgba(255, 255, 255, 0.9);
-            margin-bottom: 6px;
-            font-size: 14px;
-        }
+.input-group {
+    margin-bottom: 12px; /* Reduziert von 15px */
+    position: relative;
+}
 
-        .input-group select,
-        .input-group input,
-        .input-group textarea {
-            width: 100%;
-            padding: 10px 12px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 8px;
-            font-size: 14px;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            transition: all 0.2s ease;
-            background: rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(10px);
-            color: rgba(255, 255, 255, 0.95);
-        }
+.input-group label {
+    display: block;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 5px; /* Reduziert von 6px */
+    font-size: 13px; /* Reduziert von 14px */
+}
 
-        .input-group select:focus,
-        .input-group input:focus,
-        .input-group textarea:focus {
-            outline: none;
-            border-color: #7209b7;
-            box-shadow: 0 0 0 3px rgba(114, 9, 183, 0.3);
-            background: rgba(0, 0, 0, 0.5);
-        }
+.input-group select,
+.input-group input,
+.input-group textarea {
+    width: 100%;
+    padding: 8px 10px; /* Reduziert von 10px 12px */
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    font-size: 13px; /* Reduziert von 14px */
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    transition: all 0.2s ease;
+    background: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+    color: rgba(255, 255, 255, 0.95);
+}
 
-        .input-group textarea {
-            resize: vertical;
-            min-height: 80px;
-        }
+.input-group select:focus,
+.input-group input:focus,
+.input-group textarea:focus {
+    outline: none;
+    border-color: #7209b7;
+    box-shadow: 0 0 0 3px rgba(114, 9, 183, 0.3);
+    background: rgba(0, 0, 0, 0.5);
+}
 
-        /* TAG SYSTEM STYLES */
-        .tag-input-container {
-            position: relative;
-            width: 100%;
-            min-height: 45px;
-            padding: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 8px;
-            background: rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(10px);
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            align-items: center;
-            transition: all 0.2s ease;
-        }
+.input-group textarea {
+    resize: vertical;
+    min-height: 70px; /* Reduziert von 80px */
+}
 
-        .tag-input-container:focus-within {
-            border-color: #7209b7;
-            box-shadow: 0 0 0 3px rgba(114, 9, 183, 0.3);
-            background: rgba(0, 0, 0, 0.5);
-        }
+/* TAG SYSTEM STYLES */
+.tag-input-container {
+    position: relative;
+    width: 100%;
+    min-height: 40px; /* Reduziert von 45px */
+    padding: 6px; /* Reduziert von 8px */
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    background: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    align-items: center;
+    transition: all 0.2s ease;
+}
 
-        .tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-            flex: 1;
-        }
+.tag-input-container:focus-within {
+    border-color: #7209b7;
+    box-shadow: 0 0 0 3px rgba(114, 9, 183, 0.3);
+    background: rgba(0, 0, 0, 0.5);
+}
 
-        .tag {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 4px 8px;
-            background: linear-gradient(135deg, #7209b7, #533483);
-            color: white;
-            border-radius: 6px;
-            font-size: 13px;
-            font-weight: 500;
-            animation: fadeIn 0.2s ease;
-            white-space: nowrap;
-            flex-shrink: 0;
-        }
+.tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px; /* Reduziert von 6px */
+    flex: 1;
+}
 
-        .tag-remove {
-            cursor: pointer;
-            font-weight: bold;
-            padding: 0 4px;
-            border-radius: 3px;
-            transition: background 0.2s;
-        }
+.tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px; /* Reduziert von 6px */
+    padding: 3px 6px; /* Reduziert von 4px 8px */
+    background: linear-gradient(135deg, #7209b7, #533483);
+    color: white;
+    border-radius: 5px; /* Reduziert von 6px */
+    font-size: 12px; /* Reduziert von 13px */
+    font-weight: 500;
+    animation: fadeIn 0.2s ease;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
 
-        .tag-remove:hover {
-            background: rgba(255, 255, 255, 0.2);
-        }
+.tag-remove {
+    cursor: pointer;
+    font-weight: bold;
+    padding: 0 3px; /* Reduziert von 0 4px */
+    border-radius: 3px;
+    transition: background 0.2s;
+}
 
-        .tag-input-container input {
-            border: none !important;
-            background: transparent !important;
-            color: rgba(255, 255, 255, 0.95) !important;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
-            font-size: 14px !important;
-            outline: none !important;
-            flex: 1;
-            min-width: 200px;
-            padding: 4px !important;
-            box-shadow: none !important;
-            text-align: left !important;
-            direction: ltr !important;
-        }
+.tag-remove:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
 
-        .tag-input-container input::placeholder {
-            color: rgba(255, 255, 255, 0.6) !important;
-            text-align: left !important;
-            direction: ltr !important;
-        }
+.tag-input-container input {
+    border: none !important;
+    background: transparent !important;
+    color: rgba(255, 255, 255, 0.95) !important;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+    font-size: 13px !important; /* Reduziert von 14px */
+    outline: none !important;
+    flex: 1;
+    min-width: 180px; /* Reduziert von 200px */
+    padding: 3px !important; /* Reduziert von 4px */
+    box-shadow: none !important;
+    text-align: left !important;
+    direction: ltr !important;
+}
 
-        .dropdown {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            right: 0;
-            background: rgba(26, 26, 46, 0.95);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 8px;
-            max-height: 200px;
-            overflow-y: auto;
-            z-index: 1000;
-            display: none;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
-        }
+.tag-input-container input::placeholder {
+    color: rgba(255, 255, 255, 0.6) !important;
+    text-align: left !important;
+    direction: ltr !important;
+}
 
-        .dropdown-item {
-            padding: 10px 12px;
-            color: rgba(255, 255, 255, 0.9);
-            cursor: pointer;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            transition: background 0.2s;
-            font-size: 14px;
-        }
+.dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: rgba(26, 26, 46, 0.95);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    max-height: 180px; /* Reduziert von 200px */
+    overflow-y: auto;
+    z-index: 1000;
+    display: none;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+}
 
-        .dropdown-item:hover {
-            background: rgba(114, 9, 183, 0.3);
-        }
+.dropdown-item {
+    padding: 8px 10px; /* Reduziert von 10px 12px */
+    color: rgba(255, 255, 255, 0.9);
+    cursor: pointer;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    transition: background 0.2s;
+    font-size: 13px; /* Reduziert von 14px */
+}
 
-        .dropdown-item:last-child {
-            border-bottom: none;
-        }
+.dropdown-item:hover {
+    background: rgba(114, 9, 183, 0.3);
+}
 
-        .dropdown-item.create-new {
-            background: rgba(114, 9, 183, 0.2);
-            font-weight: 500;
-        }
+.dropdown-item:last-child {
+    border-bottom: none;
+}
 
-        .dropdown-item.create-new:hover {
-            background: rgba(114, 9, 183, 0.4);
-        }
+.dropdown-item.create-new {
+    background: rgba(114, 9, 183, 0.2);
+    font-weight: 500;
+}
 
-        .input-group small {
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 11px;
-            margin-top: 4px;
-            display: block;
-        }
+.dropdown-item.create-new:hover {
+    background: rgba(114, 9, 183, 0.4);
+}
 
-        .generate-btn {
-            width: 100%;
-            padding: 12px;
-            background: linear-gradient(135deg, #7209b7, #533483);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 15px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            box-shadow: 0 4px 12px rgba(114, 9, 183, 0.3);
-        }
+.input-group small {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 10px; /* Reduziert von 11px */
+    margin-top: 3px; /* Reduziert von 4px */
+    display: block;
+}
 
-        .generate-btn:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 6px 16px rgba(114, 9, 183, 0.4);
-        }
+.generate-btn {
+    width: 100%;
+    padding: 10px; /* Reduziert von 12px */
+    background: linear-gradient(135deg, #7209b7, #533483);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px; /* Reduziert von 15px */
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 12px rgba(114, 9, 183, 0.3);
+}
 
-        .generate-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
+.generate-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(114, 9, 183, 0.4);
+}
 
-        .chat-area {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            position: relative;
-            background: none;
-        }
+.generate-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
 
-        .chat-header {
-            background: rgba(26, 26, 46, 0.85);
-            backdrop-filter: blur(15px);
-            color: white;
-            padding: 20px 30px;
-            font-weight: 500;
-            font-size: 16px;
-            border-radius: 16px 16px 0 0;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-        }
+.chat-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    background: none;
+}
 
-        .messages {
-            flex: 1;
-            padding: 30px;
-            overflow-y: auto;
-            background: none;
-        }
+.chat-header {
+    background: rgba(26, 26, 46, 0.85);
+    backdrop-filter: blur(15px);
+    color: white;
+    padding: 16px 24px; /* Reduziert von 20px 30px */
+    font-weight: 500;
+    font-size: 15px; /* Reduziert von 16px */
+    border-radius: 16px 16px 0 0;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
 
-        .message {
-            margin-bottom: 20px;
-            opacity: 0;
-            animation: fadeIn 0.3s forwards;
-        }
+.messages {
+    flex: 1;
+    padding: 24px; /* Reduziert von 30px */
+    overflow-y: auto;
+    background: none;
+}
 
-        @keyframes fadeIn {
-            to { opacity: 1; }
-        }
+.message {
+    margin-bottom: 16px; /* Reduziert von 20px */
+    opacity: 0;
+    animation: fadeIn 0.3s forwards;
+}
 
-        .message.user {
-            text-align: right;
-        }
+@keyframes fadeIn {
+    to { opacity: 1; }
+}
 
-        .message.bot {
-            text-align: left;
-        }
+.message.user {
+    text-align: right;
+}
 
-        .message-content {
-            display: inline-block;
-            max-width: 80%;
-            padding: 15px 20px;
-            border-radius: 8px;
-            font-size: 14px;
-            line-height: 1.5;
-        }
+.message.bot {
+    text-align: left;
+}
 
-        .message.user .message-content {
-            background: linear-gradient(135deg, #7209b7, #533483);
-            color: white;
-        }
+.message-content {
+    display: inline-block;
+    max-width: 80%;
+    padding: 12px 16px; /* Reduziert von 15px 20px */
+    border-radius: 8px;
+    font-size: 13px; /* Reduziert von 14px */
+    line-height: 1.4; /* Reduziert von 1.5 */
+}
 
-        .message.bot .message-content {
-            background: rgba(26, 26, 46, 0.8);
-            backdrop-filter: blur(15px);
-            color: rgba(255, 255, 255, 0.95);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
-        }
+.message.user .message-content {
+    background: linear-gradient(135deg, #7209b7, #533483);
+    color: white;
+}
 
-        .typing {
-            display: none;
-            text-align: left;
-        }
+.message.bot .message-content {
+    background: rgba(26, 26, 46, 0.8);
+    backdrop-filter: blur(15px);
+    color: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
 
-        .typing .message-content {
-            background: rgba(26, 26, 46, 0.8);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-        }
+.typing {
+    display: none;
+    text-align: left;
+}
 
-        .typing-dots {
-            display: inline-flex;
-            gap: 4px;
-        }
+.typing .message-content {
+    background: rgba(26, 26, 46, 0.8);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+}
 
-        .typing-dots span {
-            width: 6px;
-            height: 6px;
-            background: rgba(255, 255, 255, 0.8);
-            border-radius: 50%;
-            animation: typing 1.4s infinite ease-in-out;
-        }
+.typing-dots {
+    display: inline-flex;
+    gap: 4px;
+}
 
-        .typing-dots span:nth-child(2) { animation-delay: 0.2s; }
-        .typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+.typing-dots span {
+    width: 5px; /* Reduziert von 6px */
+    height: 5px; /* Reduziert von 6px */
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 50%;
+    animation: typing 1.4s infinite ease-in-out;
+}
 
-        @keyframes typing {
-            0%, 80%, 100% { transform: scale(0.8); opacity: 0.3; }
-            40% { transform: scale(1); opacity: 1; }
-        }
+.typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+.typing-dots span:nth-child(3) { animation-delay: 0.4s; }
 
-        .feedback-section {
-            background: rgba(26, 26, 46, 0.8);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 12px;
-            padding: 15px;
-            margin: 15px 0;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
-        }
+@keyframes typing {
+    0%, 80%, 100% { transform: scale(0.8); opacity: 0.3; }
+    40% { transform: scale(1); opacity: 1; }
+}
 
-        .feedback-question {
-            font-weight: 500;
-            margin-bottom: 10px;
-            color: rgba(255, 255, 255, 0.95);
-        }
+.feedback-section {
+    background: rgba(26, 26, 46, 0.8);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    padding: 12px; /* Reduziert von 15px */
+    margin: 12px 0; /* Reduziert von 15px */
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
 
-        .feedback-buttons {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
+.feedback-question {
+    font-weight: 500;
+    margin-bottom: 8px; /* Reduziert von 10px */
+    color: rgba(255, 255, 255, 0.95);
+    font-size: 13px; /* Hinzugefügt */
+}
 
-        .feedback-btn {
-            padding: 8px 16px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            background: rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(10px);
-            border-radius: 6px;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-size: 13px;
-            color: rgba(255, 255, 255, 0.9);
-        }
+.feedback-buttons {
+    display: flex;
+    gap: 8px; /* Reduziert von 10px */
+    margin-bottom: 12px; /* Reduziert von 15px */
+}
 
-        .feedback-btn:hover {
-            border-color: #7209b7;
-            background: rgba(114, 9, 183, 0.2);
-        }
+.feedback-btn {
+    padding: 6px 12px; /* Reduziert von 8px 16px */
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 12px; /* Reduziert von 13px */
+    color: rgba(255, 255, 255, 0.9);
+}
 
-        .feedback-btn.selected {
-            background: #7209b7;
-            color: white;
-            border-color: #7209b7;
-        }
+.feedback-btn:hover {
+    border-color: #7209b7;
+    background: rgba(114, 9, 183, 0.2);
+}
 
-        .feedback-btn.positive.selected {
-            background: #28a745;
-            border-color: #28a745;
-        }
+.feedback-btn.selected {
+    background: #7209b7;
+    color: white;
+    border-color: #7209b7;
+}
 
-        .feedback-btn.negative.selected {
-            background: #dc3545;
-            border-color: #dc3545;
-        }
+.feedback-btn.positive.selected {
+    background: #28a745;
+    border-color: #28a745;
+}
 
-        .feedback-comment {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 6px;
-            resize: vertical;
-            min-height: 60px;
-            font-size: 13px;
-            background: rgba(0, 0, 0, 0.3);
-            color: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-        }
+.feedback-btn.negative.selected {
+    background: #dc3545;
+    border-color: #dc3545;
+}
 
-        .feedback-submit {
-            background: linear-gradient(135deg, #7209b7, #533483);
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 6px;
-            cursor: pointer;
-            margin-top: 10px;
-            font-size: 13px;
-            box-shadow: 0 2px 8px rgba(114, 9, 183, 0.3);
-        }
+.feedback-comment {
+    width: 100%;
+    padding: 8px; /* Reduziert von 10px */
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 6px;
+    resize: vertical;
+    min-height: 50px; /* Reduziert von 60px */
+    font-size: 12px; /* Reduziert von 13px */
+    background: rgba(0, 0, 0, 0.3);
+    color: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
 
-        .feedback-submit:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(114, 9, 183, 0.4);
-        }
+.feedback-submit {
+    background: linear-gradient(135deg, #7209b7, #533483);
+    color: white;
+    border: none;
+    padding: 6px 12px; /* Reduziert von 8px 16px */
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 8px; /* Reduziert von 10px */
+    font-size: 12px; /* Reduziert von 13px */
+    box-shadow: 0 2px 8px rgba(114, 9, 183, 0.3);
+}
 
-        .feedback-submitted {
-            background: rgba(40, 167, 69, 0.2);
-            border: 1px solid rgba(40, 167, 69, 0.4);
-            color: rgba(255, 255, 255, 0.95);
-            padding: 10px;
-            border-radius: 6px;
-            text-align: center;
-            font-size: 13px;
-            backdrop-filter: blur(10px);
-        }
+.feedback-submit:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(114, 9, 183, 0.4);
+}
 
-        .welcome {
-            text-align: center;
-            color: rgba(255, 255, 255, 0.8);
-            font-size: 15px;
-            margin-top: 80px;
-            margin-bottom: 40px;
-        }
+.feedback-submitted {
+    background: rgba(40, 167, 69, 0.2);
+    border: 1px solid rgba(40, 167, 69, 0.4);
+    color: rgba(255, 255, 255, 0.95);
+    padding: 8px; /* Reduziert von 10px */
+    border-radius: 6px;
+    text-align: center;
+    font-size: 12px; /* Reduziert von 13px */
+    backdrop-filter: blur(10px);
+}
 
-        .welcome h3 {
-            color: rgba(255, 255, 255, 0.95);
-            font-weight: 600;
-            margin-bottom: 15px;
-        }
+.welcome {
+    text-align: center;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 14px; /* Reduziert von 15px */
+    margin-top: 60px; /* Reduziert von 80px */
+    margin-bottom: 30px; /* Reduziert von 40px */
+}
 
-        @media (max-width: 768px) {
-            .container {
-                flex-direction: column;
-                height: auto;
-                min-height: 90vh;
-            }
-            
-            .sidebar {
-                width: 100%;
-                padding: 20px;
-            }
-            
-            .chat-area {
-                min-height: 400px;
-            }
-        }
+.welcome h3 {
+    color: rgba(255, 255, 255, 0.95);
+    font-weight: 600;
+    margin-bottom: 12px; /* Reduziert von 15px */
+    font-size: 18px; /* Hinzugefügt - reduziert */
+}
+
+/* Chat Input Bereich */
+.chat-input {
+    display: none;
+}
+
+.chat-input textarea {
+    font-size: 13px !important; /* Reduziert von 14px */
+    padding: 10px !important; /* Reduziert von 12px */
+    min-height: 36px !important; /* Reduziert von 40px */
+    max-height: 90px !important; /* Reduziert von 100px */
+}
+
+.chat-input button {
+    padding: 10px 16px !important; /* Reduziert von 12px 20px */
+    font-size: 13px !important; /* Reduziert */
+}
+
+.chat-input div[style*="font-size: 11px"] {
+    font-size: 10px !important; /* Reduziert von 11px */
+    margin-top: 6px !important; /* Reduziert von 8px */
+}
+
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        height: auto;
+        min-height: 90vh;
+    }
+    
+    .sidebar {
+        width: 100%;
+        padding: 16px; /* Reduziert von 20px */
+    }
+    
+    .chat-area {
+        min-height: 400px;
+    }
+    
+    body {
+        font-size: 13px; /* Mobile noch kleiner */
+    }
+    
+    .chat-header {
+        font-size: 14px; /* Mobile Header kleiner */
+        padding: 12px 16px; /* Mobile Padding reduziert */
+    }
+}
     </style>
 </head>
 <body>
