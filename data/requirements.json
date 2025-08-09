@@ -118,13 +118,13 @@
     "beispiel": "Fragt jetzt euren Hochzeitstermin an:\nSchritt 1: Termin anfragen\nHierzu müsst Ihr lediglich ein kurzes Formular ausfüllen. Falls ihr noch kein genaues Datum für eure Hochzeit habt, lasst dieses Feld bitte einfach leer.\n\nSchritt 2: Kurzes Erstgespräch\nInnerhalb 48 Stunden nach eurer Anfrage melde ich mich telefonisch bei euch. In diesem kurzen Erstgespräch erfahrt ihr auch schon, ob ich für euer Datum verfügbar bin und mit welchen Preisen ihr rechnen könnt.\n\nSchritt 3: Angebot oder Beratungsgespräch\nJe nach Umfang eurer Anfrage entscheiden wir gemeinsam, ob ein ausführlicheres Beratungsgespräch sinnvoll ist oder ob ich euch direkt ein individuelles Angebot zusenden kann.",
     "beschreibung": "Dieser Abschnitt erklärt transparent, wie der Prozess nach einer Anfrage abläuft. Häufig wird dieser Ablauf in drei klaren Schritten dargestellt, um die Orientierung für den Interessenten so einfach wie möglich zu machen. Die Schritte zeigen, was unmittelbar nach der Anfrage passiert, wann eine Rückmeldung erfolgt und wie die nächsten Entscheidungen getroffen werden. Die Darstellung kann nummeriert oder in kurzen Absätzen erfolgen, um den Ablauf leicht verständlich zu machen. Wenn im Prompt keine Details zum Ablauf genannt sind, wird dieser so formuliert, dass er branchen- und dienstleistungsspezifisch ist – z. B. bei einem Fotografen mit Fokus auf Terminabstimmung, Stilbesprechung und Angebotserstellung, bei einem DJ auf Musikplanung, Technikcheck und Vertragsabschluss.\n"
   },
-  {
-    "sektion": "7. SEO-Elemente",
-    "verwendungszweck": "Meta-Titel (SEO Title)",
-    "woerter": "max. 60 Zeichen",
-    "beispiel": "",
-    "beschreibung": ""
-  },
+{
+  "sektion": "7. SEO-Elemente",
+  "verwendungszweck": "Meta-Titel (SEO Title)",
+  "woerter": "max. 60 Zeichen",
+  "beispiel": "Exklusive Destination Weddings in Italien | Hochzeitsplaner",
+  "beschreibung": "Der Meta-Titel ist der klickbare Titel, der in den Google-Suchergebnissen erscheint. Er sollte das Haupt-Keyword enthalten (z. B. 'Destination Wedding Italien', 'Hochzeitsplaner Italien'), den USP oder ein attraktives Angebot anreißen und maximal 60 Zeichen lang sein. Der Titel soll so nah wie möglich an die 60 Zeichen kommen, aber NIEMALS überschreiten. Das Haupt-Keyword wird dabei möglichst weit vorne platziert, um Relevanz für Suchmaschinen zu erhöhen. Wenn im Prompt kein Titel vorgegeben ist, werden mindestens 10 verschiedene Meta-Titel-Varianten als Vorschläge generiert. Ziel ist es, sowohl für Suchmaschinen optimiert zu sein als auch den Nutzer zum Klicken zu animieren."
+},
   {
     "sektion": "7. SEO-Elemente",
     "verwendungszweck": "Meta-Beschreibung",
