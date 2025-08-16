@@ -179,6 +179,7 @@ function createSystemPrompt(params) {
 8. Visuelle Bildsprache: Erzeuge "Kino im Kopf"
 9. Call to Action: Leite zur Handlung
 10. Stilmittel: Nutze rhetorische Stilmittel natürlich im Text
+11. Anrede: Sprich die Zielgruppe immer in der Du-Form an, niemals in der Sie-Form
 
 CHRISTIANSHRS 2.0 STYLE - WICHTIGE REGELN:
 
