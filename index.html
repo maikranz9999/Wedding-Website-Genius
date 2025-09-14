@@ -29,7 +29,7 @@
             border-radius: 0;
             overflow: visible;
             display: flex;
-            height: 90vh;
+            /* height: 90vh; */ /* code Lederhos - 90vh entfernt da sonst das Tool in der Learningsuite nicht volle höhe hat. */
             box-shadow: none;
         }
 
@@ -857,6 +857,91 @@
             "Full-Service gewünscht"
         ];
 
+        // <!-- ========================================= -->
+        // <!-- CODE LEDERHOS COPY BLOCK                  -->
+        // <!-- ========================================= -->
+        
+                // IDs aus Iframe-URL
+                const TOOL_ID = Number(new URLSearchParams(location.search).get('tool_id')||'0');
+                const USER_ID = new URLSearchParams(location.search).get('user_id') || '';
+                
+                // Preflight
+                function preflight(kind='tool'){ 
+                  return new Promise(resolve=>{
+                    const onMsg = ev => {
+                      const d = ev.data||{};
+                      if(d.mkz==='allow_generate'){ window.removeEventListener('message',onMsg); resolve(true); }
+                      if(d.mkz==='deny_generate'){ window.removeEventListener('message',onMsg); showToast(d.reason==='limit' ? `Credit-Limit erreicht. Noch ${d.days_left} Tage bis Reset.` : 'Aktion abgebrochen.'); resolve(false); }
+                    };
+                    window.addEventListener('message', onMsg);
+                    window.parent.postMessage({ mkz:'request_generate', tool_id:TOOL_ID, kind }, '*');
+                    setTimeout(()=>{ window.removeEventListener('message', onMsg); resolve(false); }, 5000);
+                  });
+                }
+                
+                // Consume melden
+                let lastConsumeAt=0;
+                function notifyParentConsume(kind='tool', payload={}){
+                  if(!TOOL_ID) return;
+                  const now=Date.now();
+                  if(now-lastConsumeAt<1200) return; // Entprellen
+                  lastConsumeAt=now;
+                  window.parent.postMessage({ mkz:'consume', tool_id:TOOL_ID, kind, payload }, '*');
+                }
+                function sendConsume(action, input = {}, output = {}, kind = 'tool') {
+                  notifyParentConsume(kind, { action, input, output });
+                }
+                
+                // Toast im Tool
+                function showToast(msg){
+                  let box = document.getElementById('mkz-toast');
+                  if(!box){ box=document.createElement('div'); box.id='mkz-toast'; box.style.cssText='position:fixed;right:16px;bottom:16px;z-index:99999;display:flex;flex-direction:column;gap:8px'; document.body.appendChild(box);}
+                  const n=document.createElement('div');
+                  n.style.cssText='padding:10px 14px;border-radius:10px;font:14px system-ui;color:#fff;background:#b91c1c;box-shadow:0 4px 16px rgba(0,0,0,.25)';
+                  n.textContent=msg; box.appendChild(n); setTimeout(()=>n.remove(),4200);
+                }
+        
+                // Höhe an Parent melden, damit das Iframe sich anpasst
+                function reportHeight() {
+                  const h = Math.max(
+                    document.documentElement.scrollHeight,
+                    document.body.scrollHeight,
+                    document.documentElement.offsetHeight,
+                    document.body.offsetHeight
+                  );
+                  const toolId = Number(new URLSearchParams(location.search).get('tool_id') || '0');
+                  window.parent?.postMessage({ mkz:'content_height', tool_id: toolId, height: h }, '*');
+                }
+                
+                // Auf Anforderung antworten
+                window.addEventListener('message', ev => {
+                  const d = ev.data || {};
+                  if (d.mkz === 'request_height') reportHeight();
+                });
+                
+                // Bei Layout-Änderungen automatisch updaten
+                const ro = new ResizeObserver(() => { reportHeight(); });
+                ro.observe(document.documentElement);
+                ro.observe(document.body);
+                
+                // Fallback alle 2s einmal messen (für dynamische Inhalte)
+                setInterval(reportHeight, 2000);
+                
+                // Optional: Scroll innerhalb des Tools unterbinden, damit nur außen gescrollt wird
+                document.documentElement.style.overflow = 'hidden';
+                document.body.style.overflow = 'hidden';
+
+        
+                function makeIdemKey(prefix='cl'){
+                  return (crypto?.randomUUID
+                    ? `${prefix}_${crypto.randomUUID()}`
+                    : `${prefix}_${Date.now()}_${Math.random().toString(36).slice(2)}`);
+                }
+                
+        // <!-- ========================================= -->
+        // <!-- CODE LEDERHOS COPY BLOCK END              -->
+        // <!-- ========================================= -->
+
         // Scroll-Effekt für Chat-Header
         function initScrollEffects() {
             const messagesContainer = document.getElementById('messages');
@@ -1183,6 +1268,7 @@
 
         // Copy generieren - Backend API
         async function generateCopy() {
+            
             const params = {
                 prompt: document.getElementById('prompt').value,
                 service: document.getElementById('service').value,
@@ -1196,6 +1282,9 @@
                 alert('Bitte fülle mindestens den Prompt und das Gewerk aus!');
                 return;
             }
+
+            const idem = makeIdemKey('gen-copy');   // Code Lederhos COPY ROW
+            if(!(await preflight('tool'))) return;  // Code Lederhos COPY ROW
 
             // Disable button während Generierung
             const generateBtn = document.querySelector('.generate-btn');
@@ -1231,6 +1320,8 @@
                     const errorData = await response.json();
                     throw new Error(errorData.error || `API-Fehler: ${response.status}`);
                 }
+
+                sendConsume('generate_copy', { idem }, { copy_preview: (generatedCopy || '').slice(0, 2000) }, 'tool'); // Code Lederhos COPY ROW
 
                 const data = await response.json();
                 const generatedCopy = data.copy;
@@ -1281,6 +1372,9 @@
                 return;
             }
 
+            const idem = makeIdemKey('adapt-copy');   // Code Lederhos COPY ROW
+            if(!(await preflight('chat'))) return;  // Code Lederhos COPY ROW
+
             addMessage(message, true);
             messageInput.value = '';
             showTyping();
@@ -1302,6 +1396,8 @@
                     const errorData = await response.json();
                     throw new Error(errorData.error || `API-Fehler: ${response.status}`);
                 }
+
+                sendConsume('adapt_copy', { idem }, { adapted_preview: (adaptedCopy || '').slice(0, 2000) }, 'chat');   // Code Lederhos COPY ROW
 
                 const data = await response.json();
                 const adaptedCopy = data.adaptedCopy;
