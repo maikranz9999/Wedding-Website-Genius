@@ -1321,7 +1321,7 @@
                     throw new Error(errorData.error || `API-Fehler: ${response.status}`);
                 }
 
-                sendConsume('generate_copy', { idem }, { copy_preview: (generatedCopy || '').slice(0, 2000) }, 'tool'); // Code Lederhos COPY ROW
+                sendConsume('generate_copy', { idem }, { copy_preview: (generatedCopy || '').slice(0, 4000) }, 'tool'); // Code Lederhos COPY ROW
 
                 const data = await response.json();
                 const generatedCopy = data.copy;
