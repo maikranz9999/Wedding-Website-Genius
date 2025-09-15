@@ -1283,8 +1283,8 @@
                 return;
             }
 
-            const idem = makeIdemKey('gen-copy');   // Code Lederhos COPY ROW
             if(!(await preflight('tool'))) return;  // Code Lederhos COPY ROW
+            const idem = makeIdemKey('gen-copy');   // Code Lederhos COPY ROW
 
             // Disable button während Generierung
             const generateBtn = document.querySelector('.generate-btn');
@@ -1372,8 +1372,8 @@
                 return;
             }
 
-            const idem = makeIdemKey('adapt-copy');   // Code Lederhos COPY ROW
             if(!(await preflight('chat'))) return;  // Code Lederhos COPY ROW
+            const idem = makeIdemKey('adapt-copy');   // Code Lederhos COPY ROW
 
             addMessage(message, true);
             messageInput.value = '';
