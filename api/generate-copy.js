@@ -171,7 +171,7 @@ function createSystemPrompt(params) {
 
 1. Zielgruppenfokus: Sprich die definierte Zielgruppe direkt an
 2. Klarer USP: Hebe das Alleinstellungsmerkmal hervor  
-3. Emotion ohne Kitsch: Verwende echte, greifbare Bilder statt Phrasen
+3. Emotion ohne Kitsch: Zeige Emotionen über konkrete, greifbare Alltagsszenen statt über leere Phrasen oder romantisierende Floskeln. Vermeide abgedroschene Ausdrücke wie „Liebe zum Detail“, „so individuell wie ihr“ oder „der schönste Tag im Leben“. Lass Gefühle spürbar werden, indem du Handlungen, Blicke, Geräusche oder Stimmungen beschreibst, statt sie beim Namen zu nennen. Verwende Adjektive sparsam und gezielt – nie aneinandergereiht vor mehreren Substantiven in einem Satz. So wirken Texte hochwertig, klar und authentisch statt kitschig, überladen oder beliebig.
 4. Struktur & Leserführung: Hook → Problem → Lösung → CTA
 5. Verständliche Sprache: Kurze, präzise Sätze
 6. Problemorientierung: Benenne konkrete Probleme der Zielgruppe
