@@ -180,6 +180,7 @@ function createSystemPrompt(params) {
 9. Call to Action: Leite zur Handlung
 10. Stilmittel: Nutze rhetorische Stilmittel natürlich im Text
 11. Anrede: Sprich die Zielgruppe immer in der Du-Form an, niemals in der Sie-Form
+12. Bindestrich statt Gedankenstrich: Verwende niemals Gedankenstriche (–), sondern immer den normalen Bindestrich (-).
 
 CHRISTIANSHRS 2.0 STYLE - WICHTIGE REGELN:
 
