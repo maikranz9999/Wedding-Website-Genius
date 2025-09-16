@@ -254,7 +254,8 @@
             flex-direction: column;
             position: relative;
             background: none;
-            overflow: hidden;
+            overflow: scroll;
+            max-height: 100%;
         }
 
         /* ERWEITERTE CHAT-HEADER STYLES MIT SCROLL-EFFEKT */
@@ -1321,10 +1322,10 @@
                     throw new Error(errorData.error || `API-Fehler: ${response.status}`);
                 }
 
-                sendConsume('generate_copy', { idem }, { copy_preview: (generatedCopy || '').slice(0, 4000) }, 'tool'); // Code Lederhos COPY ROW
-
                 const data = await response.json();
                 const generatedCopy = data.copy;
+
+                sendConsume('generate_copy', { idem }, { copy_preview: (generatedCopy || '').slice(0, 4000) }, 'tool'); // Code Lederhos COPY ROW
                 
                 hideTyping();
                 
