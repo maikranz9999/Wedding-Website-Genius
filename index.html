@@ -1398,10 +1398,10 @@
                     throw new Error(errorData.error || `API-Fehler: ${response.status}`);
                 }
 
-                sendConsume('adapt_copy', { idem }, { adapted_preview: (adaptedCopy || '').slice(0, 2000) }, 'chat');   // Code Lederhos COPY ROW
-
                 const data = await response.json();
                 const adaptedCopy = data.adaptedCopy;
+
+                sendConsume('adapt_copy', { idem }, { adapted_preview: (adaptedCopy || '').slice(0, 2000) }, 'chat');   // Code Lederhos COPY ROW
                 
                 hideTyping();
 
