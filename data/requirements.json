@@ -17,12 +17,22 @@
   "beschreibung": "Die Haupt-Headline macht sofort klar, was angeboten wird, für wen es ist und welches Ergebnis oder Qualitätsversprechen damit verbunden ist. Sie ist kurz, präzise und leicht verständlich – ohne Floskeln oder Fachbegriffe. Aufbau: [Der/Die/Dein/Euer oder direkt ein Ergebnis wie 'Exklusive', 'Luxuriöse', 'Intime'] + [Gewerk oder Ergebnis] + für + [Zielgruppe] + [optional: , die …]."
 },
   {
-    "sektion": "1. Startseite / Hero-Bereich",
-    "verwendungszweck": "Subheadline (Unterstützende Aussage / Nutzenversprechen)",
-    "woerter": "10–20",
-    "beispiel": "sowie an ausgewählten Destinationen wie Italien, Österreich & der Schweiz",
-    "beschreibung": "Beschreibung:\nDie Subheadline ergänzt die Haupt-Headline und vertieft das Nutzenversprechen. Sie kann geographische Details, Stilrichtungen, Spezialisierungen oder emotionale Mehrwerte beinhalten. Ziel ist es, das Interesse zu verstärken, ohne zu überladen. Sie beantwortet implizit die Frage „Warum sollte ich weiterlesen?“ und kann so formuliert werden, dass sie den Leser neugierig auf den Rest der Seite macht.\n\n"
-  },
+  "sektion": "1. Startseite / Hero-Bereich",
+  "verwendungszweck": "Subheadline (Unterstützende Aussage / Nutzenversprechen)",
+  "woerter": "10–20",
+  "beispiele": [
+    "Für Paare in Süddeutschland – optional Italien, Österreich & Schweiz",
+    "Über 300 betreute Feiern – mit eigenem Inhouse-Team für jedes Detail",
+    "Modern, strukturiert & stilvoll – statt 08/15-Hussen und DIY-Chaos",
+    "Full-Service-Begleitung von der Vision bis zum letzten Tanz",
+    "Regionale Expertise & internationale Erfahrung – für Feiern ohne Kompromisse",
+    "Elegante Hochzeiten in ganz Rheinland-Pfalz, dem Saarland & Luxemburg",
+    "Für Paare, die keine Trends wollen, sondern ein durchdachtes Gesamtkonzept",
+    "Individuelle Hochzeitskonzepte mit Fokus auf Ästhetik & Effizienz",
+    "Von der Location-Suche bis zur Koordination am Tag – alles aus einer Hand"
+  ],
+  "beschreibung": "Die Subheadline schärft das Nutzenversprechen der Haupt-Headline, ohne zu überladen. Sie konkretisiert 1–2 Aspekte: Geografie (Region/Destination), Stil (z. B. modern, elegant), Spezialisierung (z. B. Full Service, Tiny Wedding), Kapazität/Budget (z. B. ab 500–600 € pro Gast), Proof/Differenzierung (z. B. >300 betreute Feiern, In-House-Team). Ziel: weiterlesen auslösen. Formate: 'Für [Region/Zielgruppe] – [Option/Destination].' / '[Stil/Spezialisierung] mit [klarem Vorteil].' / 'Ab [Budget/Leistungsrahmen] – [Qualitätsversprechen]'."
+},
   {
     "sektion": "1. Startseite / Hero-Bereich",
     "verwendungszweck": "3 Bullet Points (USP / Positionierung)",
@@ -31,12 +41,12 @@
     "beschreibung": "Beschreibung:\nDiese drei Bullet Points sind deine kompakten Verkaufsargumente. Jeder Punkt muss für sich verständlich sein und einen klaren Vorteil oder ein Alleinstellungsmerkmal transportieren. Die Formulierungen sollen stark, klar und einprägsam sein. Wichtig: Kein Fachjargon, sondern direkte Sprache, die deine Zielgruppe emotional oder rational abholt. Sie können provokativ, inspirierend oder lösungsorientiert sein, sollten aber immer den Nutzen für den Kunden klar benennen."
   },
     {
-    "sektion": "1. Startseite / Hero-Bereich",
-    "verwendungszweck": "Stell dir vor...",
-    "woerter": "je 80-120",
-    "beispiel": "Stell dir vor, du wachst auf – ohne Druck im Nacken. Keine Panik mehr wegen der nächsten Buchung. Kein Gedankenkreisen, wie du deine Preise erklären sollst. Du öffnest dein Handy – und siehst eine neue Anfrage. Schon wieder. Dein Kalender ist nicht übervoll, sondern durchdacht. Du hast Luft. Zeit für dich. Zeit für Freunde. Zeit für deinen Partner. Freitagabend? Grill an, Kopf aus. Weil dein Business läuft! Auf deinem Konto: fünfstellige Einnahmen. Monat für Monat. Ohne Bittsteller-Mentalität. Ohne Messe-Marathon. Ohne endlose DMs mit „Wir melden uns nochmal…“. Dein Marketing läuft. Deine Marke wirkt. Deine Brautpaare wissen sofort: Dich wollen wir. Und du? Du arbeitest endlich mit den Paaren, die dich feiern – und zahlst den Urlaub, den du so lange verschoben hast. Wenn das dein neues Normal werden soll – dann ist es Zeit, loszugehen.",
-    "beschreibung": "Dieser Texttyp zeichnet ein detailliertes Zukunftsbild aus Sicht der Zielgruppe. Er versetzt den Leser sofort in den gewünschten Endzustand, bevor dieser erreicht ist, und beschreibt diesen Zustand mit konkreten Alltagsszenen, spürbaren Emotionen und klaren Vorteilen. Ziel ist es, Motivation zu erzeugen und den Leser emotional an das Ergebnis zu binden. Die Sprache ist bildhaft und positiv, kombiniert emotionale Vorteile mit rationalen Argumenten. Der Text folgt dabei keiner festen Schrittstruktur, sondern fließt wie eine Erzählung. Er eignet sich besonders als Hook oder Einleitung für verkaufsorientierte Inhalte, um den „Warum“-Aspekt für die Zusammenarbeit zu verdeutlichen. Wenn keine Details vorgegeben sind, wird der Zielzustand aus den typischen Wünschen, Zielen und Schmerzpunkten der jeweiligen Zielgruppe abgeleitet."
-  },
+  "sektion": "1. Startseite / Hero-Bereich",
+  "verwendungszweck": "Stell dir vor...",
+  "woerter": "je 80–120",
+  "beispiel": "Stell dir vor, du wachst auf – ohne Druck im Nacken. Keine Panik mehr wegen der nächsten Buchung. Kein Gedankenkreisen, wie du deine Preise erklären sollst. Du öffnest dein Handy – und siehst eine neue Anfrage. Schon wieder. Dein Kalender ist nicht übervoll, sondern durchdacht. Du hast Luft. Zeit für dich. Zeit für Freunde. Zeit für deinen Partner. Freitagabend? Grill an, Kopf aus. Weil dein Business läuft! Auf deinem Konto: fünfstellige Einnahmen. Monat für Monat. Ohne Bittsteller-Mentalität. Ohne Messe-Marathon. Ohne endlose DMs mit „Wir melden uns nochmal…“. Dein Marketing läuft. Deine Marke wirkt. Deine Brautpaare wissen sofort: Dich wollen wir. Und du? Du arbeitest endlich mit den Paaren, die dich feiern – und zahlst den Urlaub, den du so lange verschoben hast. Wenn das dein neues Normal werden soll – dann ist es Zeit, loszugehen.",
+  "beschreibung": "Dieser Texttyp zeichnet ein detailliertes Zukunftsbild aus Sicht der Zielgruppe. Er versetzt den Leser sofort in den gewünschten Endzustand, bevor dieser erreicht ist, und beschreibt diesen Zustand mit konkreten Alltagsszenen, spürbaren Emotionen und klaren Vorteilen. Ziel ist es, Motivation zu erzeugen und den Leser emotional an das Ergebnis zu binden. Die Sprache ist bildhaft und positiv, kombiniert emotionale Vorteile mit rationalen Argumenten. Der Text folgt dabei keiner festen Schrittstruktur, sondern fließt wie eine Erzählung. Er eignet sich besonders als Hook oder Einleitung für verkaufsorientierte Inhalte, um den „Warum“-Aspekt für die Zusammenarbeit zu verdeutlichen. Wenn keine Details vorgegeben sind, wird der Zielzustand aus den typischen Wünschen, Zielen und Schmerzpunkten der jeweiligen Zielgruppe abgeleitet. Der Ton ist klar, selbstbewusst und fokussiert – nicht kitschig oder verträumt, sondern auf eine kaufkräftige Zielgruppe ausgerichtet."
+},
   {
     "sektion": "2. Über mich / Über uns",
     "verwendungszweck": "Einleitungstext „Warum du das machst, was du machst“",
