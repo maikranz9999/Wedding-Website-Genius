@@ -1,10 +1,20 @@
 [
   {
-    "sektion": "1. Startseite / Hero-Bereich",
-    "verwendungszweck": "Haupt-Headline (Positionierung in einem Satz)",
-    "woerter": "5–10",
-    "beispiel": "Exklusive Hochzeits­planung für Süd­deutschland",
-    "beschreibung": "Die Haupt-Headline folgt einem klaren Aufbau und macht sofort die Positionierung deutlich. Struktur: [Der / Die / Dein / Euer / oder ein direktes Ergebnis wie 'Besondere', 'Luxuriöse', 'Intime'] + [Gewerk oder Endergebnis] + für + [Zielgruppe] + [optional: , die …]. Beispiele: 'Die Hochzeitsplanerin für Paare mit Full-Service-Anspruch', 'Luxuriöse Hochzeitskleider für Bräute, die Premium-Marken lieben', 'Besondere & intime Freie Trauungen für Paare, die Emotionen vor Perfektion stellen', 'Die Hochzeitsfotografin für Paare, die echte Emotionen im Bild sehen wollen', 'Euer DJ für wahnsinnige Partys, die bis in die Morgenstunden dauern', 'Der Brautmodenladen für Bräute, die Premium-Designs lieben', 'Luxuriöse Destination Weddings für Paare, die Italien als Bühne für ihre Liebe wählen', 'Besondere freie Trauungen für Paare, die persönliche Geschichten im Mittelpunkt haben wollen', 'Die Hochzeitslocation für Feiern, die Eleganz und Natur verbinden', 'Besondere Hochzeitsfilme für Paare, die Erinnerungen in Kinoqualität suchen'. Die Formulierung muss prägnant, vertrauensbildend und sofort verständlich sein. Keine Floskeln, kein Fachjargon. Innerhalb von Sekunden muss klar sein, welche Dienstleistung angeboten wird, für wen sie gedacht ist und welches Ergebnis oder welche Qualität damit verbunden ist."
+  "sektion": "1. Startseite / Hero-Bereich",
+  "verwendungszweck": "Haupt-Headline (Positionierung in einem Satz)",
+  "woerter": "5–10",
+  "beispiele": [
+    "Die Hochzeitsplanerin für Paare mit Full-Service-Anspruch",
+    "Luxuriöse Hochzeitskleider für Bräute, die Premium-Marken lieben",
+    "Besondere & intime Freie Trauungen für Paare, die Emotionen vor Perfektion stellen",
+    "Die Hochzeitsfotografin für Paare, die echte Emotionen im Bild sehen wollen",
+    "Euer DJ für Partys, die bis in die Morgenstunden dauern",
+    "Der Brautmodenladen für Bräute, die moderne Designs lieben",
+    "Die Hochzeitslocation für Feiern, die Eleganz und Natur verbinden",
+    "Besondere Hochzeitsfilme für Paare, die Erinnerungen in Kinoqualität suchen",
+    "Die Hochzeitsstylistin für Bräute, die Natürlichkeit und Stil vereinen wollen"
+  ],
+  "beschreibung": "Die Haupt-Headline macht sofort klar, was angeboten wird, für wen es ist und welches Ergebnis oder Qualitätsversprechen damit verbunden ist. Sie ist kurz, präzise und leicht verständlich – ohne Floskeln oder Fachbegriffe. Aufbau: [Der/Die/Dein/Euer oder direkt ein Ergebnis wie 'Exklusive', 'Luxuriöse', 'Intime'] + [Gewerk oder Ergebnis] + für + [Zielgruppe] + [optional: , die …]."
 },
   {
     "sektion": "1. Startseite / Hero-Bereich",
