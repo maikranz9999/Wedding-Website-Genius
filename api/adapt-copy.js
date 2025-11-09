@@ -59,7 +59,7 @@ Schreibe den angepassten Copy:`;
         'anthropic-version': '2023-06-01'
       },
       body: JSON.stringify({
-        model: 'claude-3-5-sonnet-20241022',
+        model: 'claude-3-7-sonnet-latest',
         max_tokens: 800,
         messages: [{
           role: 'user',
